@@ -1,0 +1,78 @@
+#version 330 core
+
+in vec4 position; // raw position in the model coord
+in vec3 normal;   // raw normal in the model coord
+
+uniform mat4 modelview; // from model coord to eye coord
+uniform mat4 view;      // from world coord to eye coord
+
+// Material parameters
+uniform vec4 ambient;
+uniform vec4 diffuse;
+uniform vec4 specular;
+uniform vec4 emision;
+uniform float shininess;
+
+// Light source parameters
+const int maximal_allowed_lights = 10;
+uniform bool enablelighting;
+uniform int nlights;
+uniform vec4 lightpositions[ maximal_allowed_lights ];
+uniform vec4 lightcolors[ maximal_allowed_lights ];
+
+// Output the frag color
+out vec4 fragColor;
+
+
+void main (void){
+    if (!enablelighting){
+        // Default normal coloring (you don't need to modify anything here)
+        vec3 N = normalize(normal);
+        fragColor = vec4(0.5f*N + 0.5f , 1.0f);
+    } else {
+        // HW3: You will compute the lighting here.
+        vec4 PositionIneye = modelview * position;
+        mat3 Top3M;
+        Top3M[0][0] = modelview[0][0]; Top3M[1][0] = modelview[1][0]; Top3M[2][0] = modelview[2][0]; Top3M[0][1] = modelview[0][1]; Top3M[1][1] = modelview[1][1]; Top3M[2][1] = modelview[2][1]; Top3M[0][2] = modelview[0][2]; Top3M[1][2] = modelview[1][2]; Top3M[2][2] = modelview[2][2];
+        Top3M = inverse(Top3M);
+        Top3M = transpose(Top3M);
+        vec4 NormalIneye = vec4(normalize(Top3M*normal),1);
+        NormalIneye = normalize(NormalIneye);
+        vec4 eye = vec4(0,0,0,1);
+        vec4 p_v = PositionIneye;
+        vec4 i_v = eye;
+        p_v.x = eye.w * PositionIneye.x;
+        p_v.y = eye.w * PositionIneye.y;
+        p_v.z = eye.w * PositionIneye.z;
+        i_v.x = PositionIneye.w * eye.x;
+        i_v.y = PositionIneye.w * eye.y;
+        i_v.z = PositionIneye.w * eye.z;
+        vec4 v = normalize(p_v - i_v);
+        vec4 p_l = PositionIneye;
+        vec4 lp = view * lightpositions[0];
+        // lp.x = p_l.w * lp.x;
+        // lp.y = p_l.w * lp.y;
+        // lp.z = p_l.w * lp.z;
+        // p_l.x = lp.w * p_l.x;
+        // p_l.y = lp.w * p_l.y;
+        // p_l.z = lp.w * p_l.z;
+        vec4 l_j = normalize(lp);
+        vec4 h_j = normalize(v+l_j);
+        vec4 R = ambient + diffuse * dot(NormalIneye,l_j) + specular * pow(dot(NormalIneye,h_j),shininess);
+        R = R * lightcolors[0];
+        for(int i = 1; i < nlights; i++){
+            p_l = PositionIneye;
+            lp = view * lightpositions[i];
+            lp.x = p_l.w * lp.x;
+            lp.y = p_l.w * lp.y;
+            lp.z = p_l.w * lp.z;
+            p_l.x = lp.w * p_l.x;
+            p_l.y = lp.w * p_l.y;
+            p_l.z = lp.w * p_l.z;
+            l_j = normalize(lp);
+            h_j = normalize(v+l_j);
+            R = R + (ambient + diffuse * dot(NormalIneye,l_j) + specular * pow(dot(NormalIneye,h_j),shininess)) * lightcolors[i];
+        }
+        fragColor = emision + R;
+    }   
+}
