@@ -10,68 +10,54 @@ class Cube : public RTGeometry {
 public:
 
     void init(void){
-        // vertex positions
-        const GLfloat positions[24][3] ={
-            // Front face
-            { -0.5f, -0.5f, 0.5f },{ -0.5f, 0.5f, 0.5f },{ 0.5f, 0.5f, 0.5f },{ 0.5f, -0.5f, 0.5f },
-            // Back face
-            { -0.5f, -0.5f, -0.5f },{ -0.5f, 0.5f, -0.5f },{ 0.5f, 0.5f, -0.5f },{ 0.5f, -0.5f, -0.5f },
-            // Left face
-            { -0.5f, -0.5f, 0.5f },{ -0.5f, 0.5f, 0.5f },{ -0.5f, 0.5f, -0.5f },{ -0.5f, -0.5f, -0.5f },
-            // Right face
-            { 0.5f, -0.5f, 0.5f },{ 0.5f, 0.5f, 0.5f },{ 0.5f, 0.5f, -0.5f },{ 0.5f, -0.5f, -0.5f },
-            // Top face
-            { 0.5f, 0.5f, 0.5f },{ -0.5f, 0.5f, 0.5f },{ -0.5f, 0.5f, -0.5f },{ 0.5f, 0.5f, -0.5f },
-            // Bottom face
-            { 0.5f, -0.5f, 0.5f },{ -0.5f, -0.5f, 0.5f },{ -0.5f, -0.5f, -0.5f },{ 0.5f, -0.5f, -0.5f }
-        };
-        // vertex normals
-        const GLfloat normals[24][3] = {
-            // Front face
-            { 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },
-            // Back face
-            { 0.0f, 0.0f, -1.0f },{ 0.0f, 0.0f, -1.0f },{ 0.0f, 0.0f, -1.0f },{ 0.0f, 0.0f, -1.0f },
-            // Left face
-            { -1.0f, 0.0f, 0.0f },{ -1.0f, 0.0f, 0.0f },{ -1.0f, 0.0f, 0.0f },{ -1.0f, 0.0f, 0.0f },
-            // Right face
-            { 1.0f, 0.0f, 0.0f },{ 1.0f, 0.0f, 0.0f },{ 1.0f, 0.0f, 0.0f },{ 1.0f, 0.0f, 0.0f },
-            // Top face
-            { 0.0f, 1.0f, 0.0f },{ 0.0f, 1.0f, 0.0f },{ 0.0f, 1.0f, 0.0f },{ 0.0f, 1.0f, 0.0f },
-            // Bottom face
-            { 0.0f, -1.0f, 0.0f },{ 0.0f, -1.0f, 0.0f },{ 0.0f, -1.0f, 0.0f },{ 0.0f, -1.0f, 0.0f }
-        };
-        // Cube indices
-        const GLuint indices[36] = {
-            0, 1, 2, 0, 2, 3, // Front face
-            4, 5, 6, 4, 6, 7, // Back face
-            8, 9, 10, 8, 10, 11, // Left face
-            12, 13, 14, 12, 14, 15, // Right face
-            16, 17, 18, 16, 18, 19, // Top face
-            20, 21, 22, 20, 22, 23 // Bottom face
-        };
-        glGenVertexArrays(1, &vao );
-        buffers.resize(3); // recall that buffers is std::vector<GLuint>
-        glGenBuffers(3, buffers.data());
-        glBindVertexArray(vao);
-        
-        // 0th attribute: position
-        glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,0,(void*)0);
-        
-        // 1st attribute: normal
-        glBindBuffer(GL_ARRAY_BUFFER, buffers[1]);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(normals), normals, GL_STATIC_DRAW);
-        glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,0,(void*)0);
-        
-        // indices
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffers[2]);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-        
-        count = sizeof(indices)/sizeof(indices[0]);
-        glBindVertexArray(0);
+        Triangle FF1;
+        FF1.P.push_back({-0.5f,-0.5f,0.5f},{0.5f,-0.5f,0.5f},{0.5f,0.5f,0.5f});
+        FF1.N.push_back({ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f, 1.0f });
+        elements.push_back(FF1);
+        Triangle FF2;
+        FF2.P.push_back({-0.5f,-0.5f,0.5f},{-0.5f,0.5f,0.5f},{0.5f,0.5f,0.5f});
+        FF2.N.push_back({ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f, 1.0f });
+        elements.push_back(FF2);
+        Triangle BF1;
+        BF1.P.push_back({-0.5f,-0.5f,-0.5f},{0.5f,-0.5f,-0.5f},{0.5f,0.5f,-0.5f});
+        BF1.N.push_back({ 0.0f, 0.0f, -1.0f },{ 0.0f, 0.0f, -1.0f },{ 0.0f, 0.0f, -1.0f });
+        elements.push_back(BF1);
+        Triangle BF2;
+        BF2.P.push_back({-0.5f,-0.5f,-0.5f},{-0.5f,0.5f,-0.5f},{0.5f,0.5f,-0.5f});
+        BF2.N.push_back({ 0.0f, 0.0f, -1.0f },{ 0.0f, 0.0f, -1.0f },{ 0.0f, 0.0f, -1.0f });
+        elements.push_back(BF2);
+        Triangle LF1;
+        LF1.P.push_back({-0.5f,-0.5f,0.5f},{-0.5f,-0.5f,-0.5f},{-0.5f,0.5f,-0.5f});
+        LF1.N.push_back({ -1.0f, 0.0f, 0.0f },{ -1.0f, 0.0f, 0.0f },{ -1.0f, 0.0f, 0.0f });
+        elements.push_back(LF1);
+        Triangle LF2;
+        LF2.P.push_back({-0.5f,-0.5f,0.5f},{-0.5f,0.5f,0.5f},{-0.5f,0.5f,-0.5f});
+        LF2.N.push_back({ -1.0f, 0.0f, 0.0f },{ -1.0f, 0.0f, 0.0f },{ -1.0f, 0.0f, 0.0f });
+        elements.push_back(LF2);
+        Triangle RF1;
+        RF1.P.push_back({0.5f,-0.5f,0.5f},{0.5f,-0.5f,-0.5f},{0.5f,0.5f,-0.5f});
+        RF1.N.push_back({ 1.0f, 0.0f, 0.0f },{ 1.0f, 0.0f, 0.0f },{ 1.0f, 0.0f, 0.0f });
+        elements.push_back(RF1);
+        Triangle RF2;
+        RF2.P.push_back({0.5f,-0.5f,0.5f},{0.5f,0.5f,0.5f},{0.5f,0.5f,-0.5f});
+        RF2.N.push_back({ 1.0f, 0.0f, 0.0f },{ 1.0f, 0.0f, 0.0f },{ 1.0f, 0.0f, 0.0f });
+        elements.push_back(RF2);
+        Triangle TF1;
+        TF1.P.push_back({-0.5f,0.5f,0.5f},{0.5f,0.5f,0.5f},{0.5f,0.5f,-0.5f});
+        TF1.N.push_back({ 0.0f, 1.0f, 0.0f },{ 0.0f, 1.0f, 0.0f },{ 0.0f, 1.0f, 0.0f });
+        elements.push_back(TF1);
+        Triangle TF2;
+        TF2.P.push_back({-0.5f,0.5f,0.5f},{-0.5f,0.5f,-0.5f},{0.5f,0.5f,-0.5f});
+        TF2.N.push_back({ 0.0f, 1.0f, 0.0f },{ 0.0f, 1.0f, 0.0f },{ 0.0f, 1.0f, 0.0f });
+        elements.push_back(TF2);
+        Triangle BF1;
+        BF1.P.push_back({-0.5f,-0.5f,0.5f},{0.5f,-0.5f,0.5f},{0.5f,-0.5f,-0.5f});
+        BF1.N.push_back({ 0.0f, -1.0f, 0.0f },{ 0.0f, -1.0f, 0.0f },{ 0.0f, -1.0f, 0.0f });
+        elements.push_back(BF1);
+        Triangle BF2;
+        BF2.P.push_back({-0.5f,-0.5f,0.5f},{-0.5f,-0.5f,-0.5f},{0.5f,-0.5f,-0.5f});
+        BF2.N.push_back({ 0.0f, -1.0f, 0.0f },{ 0.0f, -1.0f, 0.0f },{ 0.0f, -1.0f, 0.0f });
+        elements.push_back(BF2);
     }
     
     
