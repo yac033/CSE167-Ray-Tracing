@@ -14,13 +14,14 @@
 #include <glm/glm.hpp>
 #include "Screenshot.h"
 #include "Scene.h"
-
+#include "Image.h"
 
 static const int width = 800;
 static const int height = 600;
 static const char* title = "Scene viewer";
 static const glm::vec4 background(0.1f, 0.2f, 0.3f, 1.0f);
 static Scene scene;
+static Image image(width,height);
 
 #include "hw3AutoScreenshots.h"
 
@@ -47,7 +48,7 @@ void initialize(void){
     
     // Initialize scene
     scene.init();
-
+    image.init();
     // Enable depth test
     glEnable(GL_DEPTH_TEST);
 }
@@ -100,6 +101,11 @@ void keyboard(unsigned char key, int x, int y){
         case ' ':
             hw3AutoScreenshots();
             glutPostRedisplay();
+            break;
+        case 't':
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+            image.draw();
+            glutSwapBuffers();
             break;
         default:
             glutPostRedisplay();
