@@ -73,7 +73,7 @@ void RTScene::draw(void){
             
             // The draw command
             shader -> setUniforms();
-            ( cur -> models[i] ) -> geometry -> draw();
+            ( cur -> models[i] ) -> RTgeometry -> draw();
         }
         
         // Continue the DFS: put all the child nodes of the current node in the stack
@@ -89,7 +89,4 @@ void RTScene::draw(void){
     
 }
 
-void buildTriangleSoup(){
-
-}
 
