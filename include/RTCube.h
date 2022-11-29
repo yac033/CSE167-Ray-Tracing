@@ -6,7 +6,7 @@ that represents a 3D cube.
 #ifndef __RTCUBE_H__
 #define __RTCUBE_H__
 
-class Cube : public RTGeometry {
+class RTCube : public RTGeometry {
 public:
 
     void init(void){
