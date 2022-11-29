@@ -50,6 +50,8 @@ void RTScene::buildTriangleSoup(void){
     model["box"] = new RTModel;
     model["box"] -> RTgeometry = RTgeometry["cube"];
     model["box"] -> material = material["wood"];
+    
+
     // model["teapot1"] = new Model;
     // model["teapot1"] -> geometry = geometry["teapot"];
     // model["teapot1"] -> material = material["silver"];
@@ -77,6 +79,8 @@ void RTScene::buildTriangleSoup(void){
     
     // Build the scene graph
     node["box"] = new RTNode;
+    node["box"]->models.push_back(model["box"]);
+    node["box"]->modeltransforms.push_back(mat4(1.0f));
     // node["table"] = new Node;
 
     // node["table top"] = new Node;
@@ -117,6 +121,7 @@ void RTScene::buildTriangleSoup(void){
     
     node["world"] -> childnodes.push_back( node["box"] );
     node["world"] -> childtransforms.push_back( mat4(1.0f) );
+
     // node["world"] -> childnodes.push_back( node["table"] );
     // node["world"] -> childtransforms.push_back( mat4(1.0f) );
     // node["world"] -> childnodes.push_back( node["bunny"] );
@@ -178,7 +183,8 @@ void RTScene::buildTriangleSoup(void){
          */
         cur_VM = matrix_stack.top(); matrix_stack.pop();
         // draw all the models at the current node
-        std::cout << cur << std::endl;
+        // std::cout << cur-> << std::endl;
+
         for ( size_t i = 0; i < cur -> models.size(); i++ ){
             // Prepare to draw the geometry. Assign the modelview and the material.
             /**
@@ -190,7 +196,10 @@ void RTScene::buildTriangleSoup(void){
             // The draw command
             shader -> setUniforms();
             std::vector<Triangle> current_triangle = ( cur -> models[i] ) -> RTgeometry -> elements;
-            
+            for(Triangle i : current_triangle){
+                triangle_soup.push_back(i);
+                std::cout << i.P[0].x << std::endl;
+            }
         }
         
         // Continue the DFS: put all the child nodes of the current node in the stack
