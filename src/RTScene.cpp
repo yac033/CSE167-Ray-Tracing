@@ -6,11 +6,11 @@ Scene.cpp contains the implementation of the draw command
 #include "RTObj.h"
 
 // The scene init definition 
-#include "RTScene.inl"
+// #include "RTScene.inl"
 
 
 using namespace glm;
-void RTScene::draw(void){
+void RTScene::buildTriangleSoup(void){
     // Pre-draw sequence: assign uniforms that are the same for all Geometry::draw call.  These uniforms include the camera view, proj, and the lights.  These uniform do not include modelview and material parameters.
     camera -> computeMatrices();
     shader -> view = camera -> view;
@@ -25,11 +25,11 @@ void RTScene::draw(void){
         count++;
     }
     // Define stacks for depth-first search (DFS)
-    std::stack < Node* > dfs_stack;
+    std::stack < RTNode* > dfs_stack;
     std::stack < mat4 >  matrix_stack; // HW3: You will update this matrix_stack during the depth-first search while loop.
     
     // Initialize the current state variable for DFS
-    Node* cur = node["world"]; // root of the tree
+    RTNode* cur = node["world"]; // root of the tree
     mat4 cur_VM = camera -> view; // HW3: You will update this current modelview during the depth first search.  Initially, we are at the "world" node, whose modelview matrix is just camera's view matrix.
     
     // HW3: The following is the beginning of the depth-first search algorithm.
@@ -43,12 +43,12 @@ void RTScene::draw(void){
     // Compute total number of connectivities in the graph; this would be an upper bound for
     // the stack size in the depth first search over the directed acyclic graph
     int total_number_of_edges = 0; 
+    
     for ( const auto &n : node ) total_number_of_edges += n.second->childnodes.size();
-    
+    std::cout << "fuck" << std::endl;
     // If you want to print some statistics of your scene graph
-    // std::cout << "total numb of nodes = " << node.size() << std::endl;
+    std::cout << "total numb of nodes = " << node.size() << std::endl;
     // std::cout << "total number of edges = " << total_number_of_edges << std::endl;
-    
     while( ! dfs_stack.empty() ){
         // Detect whether the search runs into infinite loop by checking whether the stack is longer than the number of edges in the graph.
         if ( dfs_stack.size() > total_number_of_edges ){
@@ -73,7 +73,10 @@ void RTScene::draw(void){
             
             // The draw command
             shader -> setUniforms();
-            ( cur -> models[i] ) -> RTgeometry -> draw();
+            for(Triangle i : ( cur -> models[i] ) -> RTgeometry -> elements){
+                std::cout << i.N[0].x << std::endl;
+            }
+
         }
         
         // Continue the DFS: put all the child nodes of the current node in the stack

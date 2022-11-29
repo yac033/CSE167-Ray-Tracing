@@ -5,7 +5,7 @@ RTScene.inl contains the definition of the scene graph
 #include "RTCube.h"
 
 using namespace glm;
-void Scene::buildTriangleSoup(void){
+void RTScene::buildTriangleSoup(void){
     // Create a geometry palette
     RTgeometry["cube"] = new RTCube;
     // geometry["teapot"] = new Obj;
@@ -53,9 +53,9 @@ void Scene::buildTriangleSoup(void){
     // model["teapot2"] = new Model;
     // model["teapot2"] -> geometry = geometry["teapot"];
     // model["teapot2"] -> material = material["ceramic"];
-    model["table piece"] = new Model;
-    model["table piece"] -> geometry = RTgeometry["cube"];
-    model["table piece"] -> material = material["wood"];
+    // model["table piece"] = new Model;
+    // model["table piece"] -> geometry = RTgeometry["cube"];
+    // model["table piece"] -> material = material["wood"];
     // model["bunny"] = new Model;
     // model["bunny"] -> geometry = geometry["bunny"];
     // model["bunny"] -> material = material["turquoise"];
@@ -64,39 +64,39 @@ void Scene::buildTriangleSoup(void){
     // model["bulb"] -> material = material["bulb"];
     
     // Create a light palette
-    light["sun"] = new Light;
-    light["sun"] -> position = vec4(3.0f,2.0f,1.0f,0.0f);
-    light["sun"] -> color = 1.0f*vec4(1.0f,1.0f,1.0f,1.0f);
+    // light["sun"] = new Light;
+    // light["sun"] -> position = vec4(3.0f,2.0f,1.0f,0.0f);
+    // light["sun"] -> color = 1.0f*vec4(1.0f,1.0f,1.0f,1.0f);
     
-    light["bulb"] = new Light;
-    light["bulb"] -> position = vec4(0.0f,2.0f,0.0f,0.0f);
-    light["bulb"] -> color = 1.5f * vec4(1.0f,0.2f,0.1f,1.0f);
+    // light["bulb"] = new Light;
+    // light["bulb"] -> position = vec4(0.0f,2.0f,0.0f,0.0f);
+    // light["bulb"] -> color = 1.5f * vec4(1.0f,0.2f,0.1f,1.0f);
     
     // Build the scene graph
-    node["table"] = new Node;
-    node["table top"] = new Node;
-    node["table leg"] = new Node;
+    // node["table"] = new Node;
+    // node["table top"] = new Node;
+    // node["table leg"] = new Node;
     // node["teapot1"] = new Node;
     // node["teapot2"] = new Node;
     // node["bunny"] = new Node;
     
     
-    node["table"] -> childnodes.push_back( node["table top"] );
-    node["table"] -> childtransforms.push_back( translate(vec3(0.0f,1.2f,0.0f)) );
-    node["table"] -> childnodes.push_back( node["table leg"] );
-    node["table"] -> childtransforms.push_back( translate(vec3(-0.9f,0.0f,-0.4f)) );
-    node["table"] -> childnodes.push_back( node["table leg"] );
-    node["table"] -> childtransforms.push_back( translate(vec3(-0.9f,0.0f,0.4f)) );
-    node["table"] -> childnodes.push_back( node["table leg"] );
-    node["table"] -> childtransforms.push_back( translate(vec3(0.9f,0.0f,0.4f)) );
-    node["table"] -> childnodes.push_back( node["table leg"] );
-    node["table"] -> childtransforms.push_back( translate(vec3(0.9f,0.0f,-0.4f)) );
+    // node["table"] -> childnodes.push_back( node["table top"] );
+    // node["table"] -> childtransforms.push_back( translate(vec3(0.0f,1.2f,0.0f)) );
+    // node["table"] -> childnodes.push_back( node["table leg"] );
+    // node["table"] -> childtransforms.push_back( translate(vec3(-0.9f,0.0f,-0.4f)) );
+    // node["table"] -> childnodes.push_back( node["table leg"] );
+    // node["table"] -> childtransforms.push_back( translate(vec3(-0.9f,0.0f,0.4f)) );
+    // node["table"] -> childnodes.push_back( node["table leg"] );
+    // node["table"] -> childtransforms.push_back( translate(vec3(0.9f,0.0f,0.4f)) );
+    // node["table"] -> childnodes.push_back( node["table leg"] );
+    // node["table"] -> childtransforms.push_back( translate(vec3(0.9f,0.0f,-0.4f)) );
     
-    node["table leg"] -> models.push_back( model["table piece"] );
-    node["table leg"] -> modeltransforms.push_back( translate(vec3(0.0f,0.5f,0.0f)) * scale(vec3(0.2f,1.0f,0.2f)) );
+    // node["table leg"] -> models.push_back( model["table piece"] );
+    // node["table leg"] -> modeltransforms.push_back( translate(vec3(0.0f,0.5f,0.0f)) * scale(vec3(0.2f,1.0f,0.2f)) );
     
-    node["table top"] -> models.push_back( model["table piece"] );
-    node["table top"] -> modeltransforms.push_back( translate(vec3(0.0f,-0.1f,0.0f)) * scale(vec3(2.0f,0.2f,1.0f)) );
+    // node["table top"] -> models.push_back( model["table piece"] );
+    // node["table top"] -> modeltransforms.push_back( translate(vec3(0.0f,-0.1f,0.0f)) * scale(vec3(2.0f,0.2f,1.0f)) );
     // node["table top"] -> childnodes.push_back( node["teapot1"] );
     // node["table top"] -> childtransforms.push_back( translate(vec3(-0.5f,0.0f,0.0f)) );
     // node["table top"] -> childnodes.push_back( node["teapot2"] );
@@ -110,8 +110,8 @@ void Scene::buildTriangleSoup(void){
     // node["bunny"] -> models.push_back( model["bunny"] );
     // node["bunny"] -> modeltransforms.push_back( scale(vec3(0.8f)) * translate(vec3(0.0f,1.0f,0.0f)) );
     
-    node["world"] -> childnodes.push_back( node["table"] );
-    node["world"] -> childtransforms.push_back( mat4(1.0f) );
+    // node["world"] -> childnodes.push_back( node["table"] );
+    // node["world"] -> childtransforms.push_back( mat4(1.0f) );
     // node["world"] -> childnodes.push_back( node["bunny"] );
     // node["world"] -> childtransforms.push_back( translate(vec3(-1.8f,0.0f,0.0f)) * rotate( 90.0f*float(M_PI)/180.0f, vec3(0.0f, 1.0f, 0.0f) ));
     // node["world"] -> models.push_back( model["bulb"] );
@@ -182,6 +182,7 @@ void Scene::buildTriangleSoup(void){
             // The draw command
             shader -> setUniforms();
             ( cur -> models[i] ) -> RTgeometry -> draw();
+            
         }
         
         // Continue the DFS: put all the child nodes of the current node in the stack

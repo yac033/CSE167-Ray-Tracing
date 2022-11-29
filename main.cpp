@@ -15,6 +15,7 @@
 #include "Screenshot.h"
 #include "Scene.h"
 #include "Image.h"
+#include "RTScene.h"
 
 static const int width = 800;
 static const int height = 600;
@@ -22,6 +23,7 @@ static const char* title = "Scene viewer";
 static const glm::vec4 background(0.1f, 0.2f, 0.3f, 1.0f);
 static Scene scene;
 static Image image(width,height);
+static RTScene RTscene;
 
 #include "hw3AutoScreenshots.h"
 
@@ -47,7 +49,8 @@ void initialize(void){
     glViewport(0,0,width,height);
     
     // Initialize scene
-    scene.init();
+    // scene.init();
+    RTscene.buildTriangleSoup();
     image.init();
     // Enable depth test
     glEnable(GL_DEPTH_TEST);
