@@ -50,8 +50,10 @@ void initialize(void){
     
     // Initialize scene
     // scene.init();
+    
     RTscene.buildTriangleSoup();
     image.init();
+    
     // Enable depth test
     glEnable(GL_DEPTH_TEST);
 }
@@ -165,5 +167,6 @@ int main(int argc, char** argv)
     glutSpecialFunc(specialKey);
     
     glutMainLoop();
+    
 	return 0;   /* ANSI C requires main to return int. */
 }

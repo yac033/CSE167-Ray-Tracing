@@ -6,6 +6,7 @@ RTScene.inl contains the definition of the scene graph
 
 using namespace glm;
 void RTScene::buildTriangleSoup(void){
+    
     // Create a geometry palette
     RTgeometry["cube"] = new RTCube;
     // geometry["teapot"] = new Obj;
@@ -31,8 +32,7 @@ void RTScene::buildTriangleSoup(void){
     // material["silver"] -> ambient = vec4(0.1f, 0.1f, 0.1f, 1.0f);
     // material["silver"] -> diffuse = vec4(0.2f, 0.2f, 0.2f, 1.0f);
     // material["silver"] -> specular = vec4(0.9f, 0.9f, 0.9f, 1.0f);
-    // material["silver"] -> shininess = 50.0f;
-    
+    // material["silver"] -> shininess = 50.0f;s
     // material["turquoise"] = new Material;
     // material["turquoise"] -> ambient = vec4(0.1f, 0.2f, 0.17f, 1.0f);
     // material["turquoise"] -> diffuse = vec4(0.2f, 0.375f, 0.35f, 1.0f);
@@ -47,6 +47,9 @@ void RTScene::buildTriangleSoup(void){
     // material["bulb"] -> shininess = 200.0f;
     
     // Create a model palette
+    model["box"] = new RTModel;
+    model["box"] -> RTgeometry = RTgeometry["cube"];
+    model["box"] -> material = material["wood"];
     // model["teapot1"] = new Model;
     // model["teapot1"] -> geometry = geometry["teapot"];
     // model["teapot1"] -> material = material["silver"];
@@ -73,7 +76,9 @@ void RTScene::buildTriangleSoup(void){
     // light["bulb"] -> color = 1.5f * vec4(1.0f,0.2f,0.1f,1.0f);
     
     // Build the scene graph
+    node["box"] = new RTNode;
     // node["table"] = new Node;
+
     // node["table top"] = new Node;
     // node["table leg"] = new Node;
     // node["teapot1"] = new Node;
@@ -110,6 +115,8 @@ void RTScene::buildTriangleSoup(void){
     // node["bunny"] -> models.push_back( model["bunny"] );
     // node["bunny"] -> modeltransforms.push_back( scale(vec3(0.8f)) * translate(vec3(0.0f,1.0f,0.0f)) );
     
+    node["world"] -> childnodes.push_back( node["box"] );
+    node["world"] -> childtransforms.push_back( mat4(1.0f) );
     // node["world"] -> childnodes.push_back( node["table"] );
     // node["world"] -> childtransforms.push_back( mat4(1.0f) );
     // node["world"] -> childnodes.push_back( node["bunny"] );
@@ -133,11 +140,11 @@ void RTScene::buildTriangleSoup(void){
     
     
     // Define stacks for depth-first search (DFS)
-    std::stack < Node* > dfs_stack;
+    std::stack < RTNode* > dfs_stack;
     std::stack < mat4 >  matrix_stack; // HW3: You will update this matrix_stack during the depth-first search while loop.
     
     // Initialize the current state variable for DFS
-    Node* cur = node["world"]; // root of the tree
+    RTNode* cur = node["world"]; // root of the tree
     mat4 cur_VM = camera -> view; // HW3: You will update this current modelview during the depth first search.  Initially, we are at the "world" node, whose modelview matrix is just camera's view matrix.
     
     // HW3: The following is the beginning of the depth-first search algorithm.
@@ -171,6 +178,7 @@ void RTScene::buildTriangleSoup(void){
          */
         cur_VM = matrix_stack.top(); matrix_stack.pop();
         // draw all the models at the current node
+        std::cout << cur << std::endl;
         for ( size_t i = 0; i < cur -> models.size(); i++ ){
             // Prepare to draw the geometry. Assign the modelview and the material.
             /**
@@ -181,7 +189,7 @@ void RTScene::buildTriangleSoup(void){
             
             // The draw command
             shader -> setUniforms();
-            ( cur -> models[i] ) -> RTgeometry -> draw();
+            std::vector<Triangle> current_triangle = ( cur -> models[i] ) -> RTgeometry -> elements;
             
         }
         
@@ -194,4 +202,5 @@ void RTScene::buildTriangleSoup(void){
             matrix_stack.push( cur_VM * cur->childtransforms[i] );
         }
     } // End of DFS while loop.
+    // std::cout << "Oh no" << std::endl;
 }

@@ -19,7 +19,7 @@ Obj.o: src/Obj.cpp include/Obj.h
 	$(CC) $(CFLAGS) $(INCFLAGS) -c src/Obj.cpp
 Scene.o: src/Scene.cpp src/Scene.inl include/Scene.h
 	$(CC) $(CFLAGS) $(INCFLAGS) -c src/Scene.cpp
-RTScene.o: src/RTScene.cpp include/RTScene.h
+RTScene.o: src/RTScene.cpp include/RTScene.h src/RTScene.inl
 	$(CC) $(CFLAGS) $(INCFLAGS) -c src/RTScene.cpp
 Image.o: src/Image.cpp include/Image.h
 	$(CC) $(CFLAGS) $(INCFLAGS) -c src/Image.cpp
