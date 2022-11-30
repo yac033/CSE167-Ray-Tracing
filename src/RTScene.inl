@@ -211,5 +211,5 @@ void RTScene::buildTriangleSoup(void){
             matrix_stack.push( cur_VM * cur->childtransforms[i] );
         }
     } // End of DFS while loop.
-    // std::cout << "Oh no" << std::endl;
+    // std::cout << triangle_soup.size() << std::endl;
 }
