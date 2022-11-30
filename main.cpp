@@ -63,7 +63,7 @@ void display(void){
     std::cout<<"before" << std::endl;
     // scene.draw();
     std::cout<<"after" << std::endl;
-    // image.draw();
+    image.draw();
     glutSwapBuffers();
     glFlush();
     
