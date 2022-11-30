@@ -52,7 +52,6 @@ public:
     }
     
     void init( void );
-    void draw( void );
     void buildTriangleSoup();
     // destructor
     ~RTScene(){
