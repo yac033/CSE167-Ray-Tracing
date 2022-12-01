@@ -60,8 +60,11 @@ void initialize(void){
 
 void display(void){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+    // call ray tracer, use for loop to iterate through all rays in the ray tracers
+    // inside the raytracer function, use for loop to iterate through all triangles
+    // in the traingle soup
     
-    scene.draw();
+    //RTscene.draw();
     // image.draw();
     glutSwapBuffers();
     glFlush();

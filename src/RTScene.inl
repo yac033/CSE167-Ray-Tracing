@@ -201,6 +201,7 @@ void RTScene::buildTriangleSoup(void){
                 std::cout << i.P[0].x << std::endl;
             }
         }
+        // How we render the triangle soup and put it on the screen 
         
         // Continue the DFS: put all the child nodes of the current node in the stack
         for ( size_t i = 0; i < cur -> childnodes.size(); i++ ){

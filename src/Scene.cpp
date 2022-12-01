@@ -5,14 +5,24 @@ Scene.cpp contains the implementation of the draw command
 #include "Cube.h"
 #include "Obj.h"
 
-// The scene init definition 
-#include "Scene.inl"
+#include "RTScene.h"
+#include "RTCube.h"
+#include "RTObj.h"
 
+// The scene init definition 
+#include "RTScene.inl"
+
+
+// The scene init definition 
+
+#include "Scene.inl"
 
 using namespace glm;
 void Scene::draw(void){
     // Pre-draw sequence: assign uniforms that are the same for all Geometry::draw call.  These uniforms include the camera view, proj, and the lights.  These uniform do not include modelview and material parameters.
+    
     camera -> computeMatrices();
+    std::cout << "hi" << std::endl;
     shader -> view = camera -> view;
     shader -> projection = camera -> proj;
     shader -> nlights = light.size();
