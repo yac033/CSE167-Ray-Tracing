@@ -51,35 +51,34 @@ public:
         node["world"] = new RTNode;
     }
     
-    void init( void );
     void buildTriangleSoup();
     // destructor
-    ~RTScene(){
-        // The containers of pointers own the object pointed to by the pointers.
-        // All the objects should be deleted when the object palette is destructed.
-        // light
-        for(std::pair<std::string,Light*> entry : light ){
-            delete entry.second;
-        }
-        // geometry
-        for(std::pair<std::string,RTGeometry*> entry : RTgeometry ){
-            delete entry.second;
-        }
-        // material
-        for(std::pair<std::string,Material*> entry : material ){
-            delete entry.second;
-        }
-        // model
-        for(std::pair<std::string,RTModel*> entry : model ){
-            delete entry.second;
-        }
-        // model
-        for(std::pair<std::string,RTNode*> entry : node ){
-            delete entry.second;
-        }
-        delete camera;
-        delete shader;
-    }
+    // ~RTScene(){
+    //     // The containers of pointers own the object pointed to by the pointers.
+    //     // All the objects should be deleted when the object palette is destructed.
+    //     // light
+    //     for(std::pair<std::string,Light*> entry : light ){
+    //         delete entry.second;
+    //     }
+    //     // geometry
+    //     for(std::pair<std::string,RTGeometry*> entry : RTgeometry ){
+    //         delete entry.second;
+    //     }
+    //     // material
+    //     for(std::pair<std::string,Material*> entry : material ){
+    //         delete entry.second;
+    //     }
+    //     // model
+    //     for(std::pair<std::string,RTModel*> entry : model ){
+    //         delete entry.second;
+    //     }
+    //     // model
+    //     for(std::pair<std::string,RTNode*> entry : node ){
+    //         delete entry.second;
+    //     }
+    //     delete camera;
+    //     delete shader;
+    // }
 };
 
 #endif 

@@ -16,6 +16,7 @@
 #include "Scene.h"
 #include "Image.h"
 #include "RTScene.h"
+#include "Ray.h"
 
 static const int width = 800;
 static const int height = 600;
@@ -50,7 +51,7 @@ void initialize(void){
     
     // Initialize scene
     // scene.init();
-    
+
     RTscene.buildTriangleSoup();
     image.init();
     
@@ -60,9 +61,8 @@ void initialize(void){
 
 void display(void){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-    std::cout<<"before" << std::endl;
     // scene.draw();
-    std::cout<<"after" << std::endl;
+    RayTracer::Raytrace(*RTscene.camera,RTscene,image);
     image.draw();
     glutSwapBuffers();
     glFlush();

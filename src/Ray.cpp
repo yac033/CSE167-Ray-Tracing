@@ -53,6 +53,20 @@ Intersection RayTracer::IntersectTri(Ray ray, Triangle tri){
     }
     return q;
 }
+
+Ray RayTracer::RayThruPixel(Camera cam, int i, int j, int width, int height){
+    glm::vec3 w = glm::normalize(cam.eye - cam.target);
+    glm::vec3 u = glm::normalize(glm::cross(w,cam.up));
+    glm::vec3 v = glm::cross(w,u);
+    float a = width/height * 1.0;
+    float fovy = cam.fovy * M_PI/180.0f;
+    float alpha = 2 * ((i + 0.5f)/width) - 1;
+    float beta = 1 - 2 * ((j+0.5f)/height);
+    Ray ret;
+    ret.p0 = glm::vec3(0.0f,0.0f,0.0f);
+    ret.dir = glm::vec3(alpha * a * tan(fovy*0.5f),beta*tan(fovy*0.5f),-1);
+    return ret;
+}
 // void Raytrace(Camera cam, RTScene scene, Image &image);              // page 9
 //     Ray RayThruPixel(Camera cam, int i, int j, int width, int height); // page 10, 18 
 //     Intersection Intersect(Ray ray, Triangle triangle);         // page 30, 33
