@@ -6,7 +6,7 @@
 #include "Intersection.h"
 #include "Camera.h"
 #include "Image.h"
-#include "RTScene"
+#include "RTScene.h"
 
 
 #ifndef __RAY_H__
@@ -17,11 +17,10 @@ public:
     glm::vec3 dir;
 };
 
-namespace RayTracer
-{
+namespace RayTracer {
     void Raytrace(Camera cam, RTScene scene, Image &image);              // page 9
     Ray RayThruPixel(Camera cam, int i, int j, int width, int height); // page 10, 18 
-    Intersection Intersect(Ray ray, Triangle triangle);         // page 30, 33
+    Intersection IntersectTri(Ray ray, Triangle triangle);         // page 30, 33
     Intersection Intersect(Ray ray, RTScene scene);                      // page 11, 28, 31
     glm::vec3 FindColor(Intersection hit, int recursion_depth);        // page 15
 };

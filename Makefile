@@ -7,8 +7,8 @@ LDFLAGS = -framework GLUT -framework OpenGL -L$(BREWPATH)/lib -lfreeimage
 
 RM = /bin/rm -f
 all: SceneViewer
-SceneViewer: Image.o main.o Shader.o Camera.o Obj.o Scene.o RTScene.o shaders/lighting.frag shaders/projective.vert
-	$(CC) -o SceneViewer main.o Shader.o Camera.o Obj.o Image.o Scene.o RTScene.o $(LDFLAGS)
+SceneViewer: Image.o main.o Shader.o Camera.o Obj.o Scene.o RTScene.o shaders/lighting.frag  Ray.o shaders/projective.vert
+	$(CC) -o SceneViewer main.o Shader.o Camera.o Obj.o Image.o Scene.o RTScene.o Ray.o  $(LDFLAGS)
 main.o: main.cpp include/hw3AutoScreenshots.h
 	$(CC) $(CFLAGS) $(INCFLAGS) -c main.cpp 
 Shader.o: src/Shader.cpp
@@ -23,6 +23,8 @@ RTScene.o: src/RTScene.cpp include/RTScene.h src/RTScene.inl
 	$(CC) $(CFLAGS) $(INCFLAGS) -c src/RTScene.cpp
 Image.o: src/Image.cpp include/Image.h
 	$(CC) $(CFLAGS) $(INCFLAGS) -c src/Image.cpp
+Ray.o: src/Ray.cpp include/Ray.h include/Intersection.h
+	$(CC) $(CFLAGS) $(INCFLAGS) -c src/Ray.cpp
 clean: 
 	$(RM) *.o SceneViewer
 
