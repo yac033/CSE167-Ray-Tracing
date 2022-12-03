@@ -79,16 +79,17 @@ void RTScene::buildTriangleSoup(void){
             // The draw command
             shader -> setUniforms();
             std::vector<Triangle> current_triangle = ( cur -> models[i] ) -> RTgeometry -> elements;
-            for(Triangle i : current_triangle){
+            for(Triangle k : current_triangle){
                 glm::mat4 iview = glm::inverse(shader->view);
-                i.P[0]=(glm::vec3(iview * shader->modelview * glm::vec4(i.P[0],1)));
-                i.P[1]=(glm::vec3(iview * shader->modelview * glm::vec4(i.P[1],1)));
-                i.P[2]=(glm::vec3(iview * shader->modelview * glm::vec4(i.P[2],1)));
-                i.N[0] = (inverse(transpose(mat3(iview*shader->modelview)))*i.N[0]);
-                i.N[1] = (inverse(transpose(mat3(iview*shader->modelview)))*i.N[1]);
-                i.N[2] = (inverse(transpose(mat3(iview*shader->modelview)))*i.N[2]);
-                triangle_soup.push_back(i);
-                // std::cout << i.P[0].x << std::endl;
+                k.P[0]=(glm::vec3(iview * shader->modelview * glm::vec4(k.P[0],1)));
+                k.P[1]=(glm::vec3(iview * shader->modelview * glm::vec4(k.P[1],1)));
+                k.P[2]=(glm::vec3(iview * shader->modelview * glm::vec4(k.P[2],1)));
+                k.N[0] = (inverse(transpose(mat3(iview*shader->modelview)))*k.N[0]);
+                k.N[1] = (inverse(transpose(mat3(iview*shader->modelview)))*k.N[1]);
+                k.N[2] = (inverse(transpose(mat3(iview*shader->modelview)))*k.N[2]);
+                k.material = ( cur -> models[i] ) -> material;
+                triangle_soup.push_back(k);
+                // std::cout << k.material->shininess<< std::endl;
             }
         }
         

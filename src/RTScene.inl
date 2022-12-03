@@ -69,9 +69,9 @@ void RTScene::init(void){
     // model["bulb"] -> material = material["bulb"];
     
     // Create a light palette
-    // light["sun"] = new Light;
-    // light["sun"] -> position = vec4(3.0f,2.0f,1.0f,0.0f);
-    // light["sun"] -> color = 1.0f*vec4(1.0f,1.0f,1.0f,1.0f);
+    light["sun"] = new Light;
+    light["sun"] -> position = vec4(3.0f,2.0f,1.0f,0.0f);
+    light["sun"] -> color = 1.0f*vec4(1.0f,1.0f,1.0f,1.0f);
     
     // light["bulb"] = new Light;
     // light["bulb"] -> position = vec4(0.0f,2.0f,0.0f,0.0f);

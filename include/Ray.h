@@ -22,6 +22,7 @@ namespace RayTracer {
     Ray RayThruPixel(Camera cam, int i, int j, int width, int height); // page 10, 18 
     Intersection IntersectTri(Ray ray, Triangle triangle);         // page 30, 33
     Intersection Intersect(Ray ray, RTScene scene);                      // page 11, 28, 31
-    glm::vec3 FindColor(Intersection hit, int recursion_depth);        // page 15
+    glm::vec3 FindColor(Intersection hit, int recursion_depth, RTScene scene);        // page 15
+    glm::vec3 Lightening(Intersection hit, RTScene scene);
 };
 #endif
