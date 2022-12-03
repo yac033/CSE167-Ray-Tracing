@@ -22,29 +22,29 @@ void RTScene::init(void){
     material["wood"] -> specular = vec4(0.3f,0.15f,0.1f,1.0f);
     material["wood"] -> shininess = 100.0f;
     
-    // material["ceramic"] = new Material;
-    // material["ceramic"] -> ambient = vec4(0.02f, 0.07f, 0.2f, 1.0f);
-    // material["ceramic"] -> diffuse = vec4(0.1f, 0.25f, 0.7f, 1.0f);
-    // material["ceramic"] -> specular = vec4(0.9f, 0.9f, 0.9f, 1.0f);
-    // material["ceramic"] -> shininess = 150.0f;
+    material["ceramic"] = new Material;
+    material["ceramic"] -> ambient = vec4(0.02f, 0.07f, 0.2f, 1.0f);
+    material["ceramic"] -> diffuse = vec4(0.1f, 0.25f, 0.7f, 1.0f);
+    material["ceramic"] -> specular = vec4(0.9f, 0.9f, 0.9f, 1.0f);
+    material["ceramic"] -> shininess = 150.0f;
  
-    // material["silver"] = new Material;
-    // material["silver"] -> ambient = vec4(0.1f, 0.1f, 0.1f, 1.0f);
-    // material["silver"] -> diffuse = vec4(0.2f, 0.2f, 0.2f, 1.0f);
-    // material["silver"] -> specular = vec4(0.9f, 0.9f, 0.9f, 1.0f);
-    // material["silver"] -> shininess = 50.0f;s
-    // material["turquoise"] = new Material;
-    // material["turquoise"] -> ambient = vec4(0.1f, 0.2f, 0.17f, 1.0f);
-    // material["turquoise"] -> diffuse = vec4(0.2f, 0.375f, 0.35f, 1.0f);
-    // material["turquoise"] -> specular = vec4(0.3f, 0.3f, 0.3f, 1.0f);
-    // material["turquoise"] -> shininess = 100.0f;
+    material["silver"] = new Material;
+    material["silver"] -> ambient = vec4(0.1f, 0.1f, 0.1f, 1.0f);
+    material["silver"] -> diffuse = vec4(0.2f, 0.2f, 0.2f, 1.0f);
+    material["silver"] -> specular = vec4(0.9f, 0.9f, 0.9f, 1.0f);
+    material["silver"] -> shininess = 50.0f;
+    material["turquoise"] = new Material;
+    material["turquoise"] -> ambient = vec4(0.1f, 0.2f, 0.17f, 1.0f);
+    material["turquoise"] -> diffuse = vec4(0.2f, 0.375f, 0.35f, 1.0f);
+    material["turquoise"] -> specular = vec4(0.3f, 0.3f, 0.3f, 1.0f);
+    material["turquoise"] -> shininess = 100.0f;
     
-    // material["bulb"] = new Material;
-    // material["bulb"] -> ambient = vec4(0.0f, 0.0f, 0.0f, 1.0f);
-    // material["bulb"] -> diffuse = vec4(0.0f, 0.0f, 0.0f, 1.0f);
-    // material["bulb"] -> specular = vec4(1.0f, 1.0f, 1.0f, 1.0f);
-    // material["bulb"] -> emision = vec4(1.0f,0.2f,0.1f,1.0f);
-    // material["bulb"] -> shininess = 200.0f;
+    material["bulb"] = new Material;
+    material["bulb"] -> ambient = vec4(0.0f, 0.0f, 0.0f, 1.0f);
+    material["bulb"] -> diffuse = vec4(0.0f, 0.0f, 0.0f, 1.0f);
+    material["bulb"] -> specular = vec4(1.0f, 1.0f, 1.0f, 1.0f);
+    material["bulb"] -> emision = vec4(1.0f,0.2f,0.1f,1.0f);
+    material["bulb"] -> shininess = 200.0f;
     
     // Create a model palette
     // model["box"] = new RTModel;
