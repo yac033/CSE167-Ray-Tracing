@@ -15,7 +15,7 @@ void RayTracer::Raytrace(Camera cam, RTScene scene, Image &image)
             Ray ray = RayThruPixel(cam, i, j, w, h);
 
             Intersection hit = Intersect(ray, scene);
-            std::cout << hit.triangle->material->shininess << std::endl;
+            // std::cout << hit.triangle->material->shininess << std::endl;
             // std::cout << hit.dist << std::endl;
             image.pixels[j * w + i] = FindColor(hit, 1, scene);
         }
@@ -32,24 +32,22 @@ glm::vec3 RayTracer::FindColor(Intersection hit, int recursion_depth, RTScene sc
         if (hit.dist > -1) //if (hit.dist < INFINITY)
         {
             Ray second_ray;
-            second_ray.p0 = hit.P;
+            second_ray.p0 = hit.P + glm::vec3(2.0f,0.0f,0.0f);
             /* for loop to iterate the ligh position*/
             
             second_ray.dir = glm::normalize(glm::vec3(scene.shader->lightpositions[0]) - hit.P);
             Intersection second_hit = Intersect(second_ray, scene);
-            std::cout << second_hit.dist << std::endl;
             if (second_hit.dist == -1) //if (second_hit.dist == INFINITY)
             {
-                std::cout << "crashed" << std::endl;
                 color = Lightening(hit, scene);
                 
-                std::cout << color.x << " " << color.y << " " << color.z << std::endl; 
+
                 // reflection: Generate mirror-reflected ray
                 Ray reflect_ray;
                 reflect_ray.p0 = hit.P;
                 reflect_ray.dir = (2 * glm::dot(hit.N, hit.V)*hit.N) - hit.V;
                 Intersection hit2 = Intersect(reflect_ray, scene);
-                color += glm::vec3(hit.triangle->material->specular) * FindColor(hit2, recursion_depth + 1, scene);
+                color += glm::vec3(hit.triangle.material->specular) * FindColor(hit2, recursion_depth + 1, scene);
             }
             // shadow here
             else
@@ -58,10 +56,6 @@ glm::vec3 RayTracer::FindColor(Intersection hit, int recursion_depth, RTScene sc
             }
             
         }
-        // else
-        // {
-        //     color = glm::vec3(0.0f);
-        // }
     }
     else
     {
@@ -78,13 +72,12 @@ glm::vec3 RayTracer::Lightening(Intersection hit, RTScene scene)
     glm::vec3 position = hit.P;
     int nlights = scene.light.size();
     
-    glm::vec4 ambient = hit.triangle->material->ambient;
+    glm::vec4 ambient = hit.triangle.material->ambient;
+    glm::vec4 diffuse = hit.triangle.material->diffuse;
+    glm::vec4 specular = hit.triangle.material->specular;
+    float shininess = hit.triangle.material->shininess;
     
-    glm::vec4 diffuse = hit.triangle->material->diffuse;
-    glm::vec4 specular = hit.triangle->material->specular;
-    float shininess = hit.triangle->material->shininess;
-    
-    glm::vec4 emission = hit.triangle->material->emision;
+    glm::vec4 emission = hit.triangle.material->emision;
     glm::vec4 lightpositions = scene.shader->lightpositions[0];
  
     glm::vec4 lightcolors = scene.shader->lightcolors[0];
@@ -121,59 +114,60 @@ glm::vec3 RayTracer::Lightening(Intersection hit, RTScene scene)
     return glm::vec3(emission + sum);
 }
 
-// Intersection RayTracer::Intersect(Ray ray, RTScene scene)
-// {
-//     float mindist = INFINITY;
-//     Intersection hit;
+Intersection RayTracer::Intersect(Ray ray, RTScene scene)
+{
+    float mindist = INFINITY;
+    Intersection hit;
 
-//     for (Triangle tri : scene.triangle_soup)
-//     { // Find closest intersection; test all objects
-//         // std::cout << "new triangle" << std::endl;
+    for (Triangle tri : scene.triangle_soup)
+    { // Find closest intersection; test all objects
+        // std::cout << "new triangle" << std::endl;
         
-//         Intersection hit_temp = IntersectTri(ray, tri);
-        
-//         if (hit_temp.dist < mindist)
-//         { // closer than previous hit
-//             if (hit_temp.dist != -1)
-//             {
-//                 mindist = hit_temp.dist;
-//                 // hit.dist = hit_temp.dist;
-//                 // hit.N = hit_temp.N;
-//                 // hit.P = hit_temp.P;
-//                 // hit.V = hit_temp.V;
-//                 // hit.triangle = hit_temp.triangle;
-//                 hit = hit_temp;
-//             }
-//         }
-//     }
-//     return hit;
-// }
+        Intersection hit_temp = IntersectTri(ray, tri);
+        // std::cout << hit_temp.dist << std::endl;
+        if (hit_temp.dist < mindist)
+        { // closer than previous hit
+            if (hit_temp.dist != -1)
+            {
+                mindist = hit_temp.dist;
+                // hit.dist = hit_temp.dist;
+                // hit.N = hit_temp.N;
+                // hit.P = hit_temp.P;
+                // hit.V = hit_temp.V;
+                // hit.triangle = hit_temp.triangle;
+                hit = hit_temp;
 
-// Intersection RayTracer::IntersectTri(Ray ray, Triangle tri)
-// {
+            }
+        }
+    }
+    return hit;
+}
 
-//     glm::mat4 firstMatrix = {glm::vec4(tri.P[0], 1.0f), glm::vec4(tri.P[1], 1.0f), glm::vec4(tri.P[2], 1.0f), glm::vec4(-ray.dir, 0.0f)};
-//     glm::vec4 secondMatrix = glm::vec4(ray.p0, 1.0f);
-//     glm::vec4 result = glm::inverse(firstMatrix) * secondMatrix;
-//     Intersection q;
+Intersection RayTracer::IntersectTri(Ray ray, Triangle tri)
+{
+
+    glm::mat4 firstMatrix = {glm::vec4(tri.P[0], 1.0f), glm::vec4(tri.P[1], 1.0f), glm::vec4(tri.P[2], 1.0f), glm::vec4(-ray.dir, 0.0f)};
+    glm::vec4 secondMatrix = glm::vec4(ray.p0, 1.0f);
+    glm::vec4 result = glm::inverse(firstMatrix) * secondMatrix;
+    Intersection q;
     
-//     if (result.x >= 0 && result.y >= 0 && result.z >= 0 && result.w >= 0)
-//     {
+    if (result.x >= 0 && result.y >= 0 && result.z >= 0 && result.w >= 0)
+    {
         
-//         q.P = result.x * tri.P[0] + result.y * tri.P[1] + result.z * tri.P[2];
+        q.P = result.x * tri.P[0] + result.y * tri.P[1] + result.z * tri.P[2];
 
-//         q.N = glm::normalize(result.x * tri.N[0] + result.y * tri.N[1] + result.z * tri.N[2]);
-//         q.V = -ray.dir;
-//         q.triangle = &tri;
-//         q.dist = result.w;
+        q.N = glm::normalize(result.x * tri.N[0] + result.y * tri.N[1] + result.z * tri.N[2]);
+        q.V = -ray.dir;
+        q.triangle = tri;
+        q.dist = result.w;
         
-//         return q;
-//     }else{
+        return q;
+    }else{
         
-//     }
-//     std::cout << result.x << " " << result.y << " " << result.z << std::endl;
-//     return q;
-// }
+    }
+    // std::cout << result.x << " " << result.y << " " << result.z << std::endl;
+    return q;
+}
 
 Ray RayTracer::RayThruPixel(Camera cam, int i, int j, int width, int height)
 {
