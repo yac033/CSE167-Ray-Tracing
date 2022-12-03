@@ -1,5 +1,4 @@
 #include "Ray.h"
-
 #include "Intersection.h"
 int MAX_RECURSION_DEPTH = 2;
 void RayTracer::Raytrace(Camera cam, RTScene scene, Image &image)
@@ -78,9 +77,9 @@ glm::vec3 RayTracer::Lightening(Intersection hit, RTScene scene)
     float shininess = hit.triangle.material->shininess;
     
     glm::vec4 emission = hit.triangle.material->emision;
-    glm::vec4 lightpositions = scene.shader->lightpositions[0];
+    std::vector<glm::vec4> lightpositions = scene.shader->lightpositions;
  
-    glm::vec4 lightcolors = scene.shader->lightcolors[0];
+    std::vector<glm::vec4> lightcolors = scene.shader->lightcolors;
 
     glm::mat3 A = glm::mat3(modelview[0][0], modelview[0][1], modelview[0][2],
                   modelview[1][0], modelview[1][1], modelview[1][2],
@@ -96,21 +95,21 @@ glm::vec3 RayTracer::Lightening(Intersection hit, RTScene scene)
     
     glm::vec4 sum = glm::vec4(0);
     // HW3: You will compute the lighting here.
-    // for (int i = 0; i < nlights; i++)
-    // {
+    for (int i = 0; i < nlights; i++)
+    {
 
         // change light from world to world
-        glm::vec4 new_light = lightpositions;
+        glm::vec4 new_light = lightpositions[i];
 
         glm::vec3 d = normalize(new_position[3] * glm::vec3(new_light) - new_light[3] * glm::vec3(new_position));
 
         glm::vec3 h = normalize(d + v);
 
-        sum += lightcolors *
+        sum += lightcolors[i] *
                (ambient +
                 (diffuse * glm::max(dot(normal_cam, d), 0.0f)) +
                 (specular * pow(glm::max(dot(normal_cam, h), 0.0f), shininess)));
-    // }
+    }
     return glm::vec3(emission + sum);
 }
 
