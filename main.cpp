@@ -88,12 +88,12 @@ void keyboard(unsigned char key, int x, int y){
             saveScreenShot();
             break;
         case 'r':
-            scene.camera -> aspect_default = float(glutGet(GLUT_WINDOW_WIDTH))/float(glutGet(GLUT_WINDOW_HEIGHT));
-            scene.camera -> reset();
+            RTscene.camera -> aspect_default = float(glutGet(GLUT_WINDOW_WIDTH))/float(glutGet(GLUT_WINDOW_HEIGHT));
+            RTscene.camera -> reset();
             glutPostRedisplay();
             break;
         case 'a':
-            scene.camera -> zoom(0.9f);
+            RTscene.camera -> zoom(0.9f);
             glutPostRedisplay();
             break;
         case 'z':
@@ -121,19 +121,19 @@ void keyboard(unsigned char key, int x, int y){
 void specialKey(int key, int x, int y){
     switch (key) {
         case GLUT_KEY_UP: // up
-            scene.camera -> rotateUp(-10.0f);
+            RTscene.camera -> rotateUp(-10.0f);
             glutPostRedisplay();
             break;
         case GLUT_KEY_DOWN: // down
-            scene.camera -> rotateUp(10.0f);
+            RTscene.camera -> rotateUp(10.0f);
             glutPostRedisplay();
             break;
         case GLUT_KEY_RIGHT: // right
-            scene.camera -> rotateRight(-10.0f);
+            RTscene.camera -> rotateRight(-10.0f);
             glutPostRedisplay();
             break;
         case GLUT_KEY_LEFT: // left
-            scene.camera -> rotateRight(10.0f);
+            RTscene.camera -> rotateRight(10.0f);
             glutPostRedisplay();
             break;
     }

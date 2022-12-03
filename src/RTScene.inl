@@ -81,9 +81,9 @@ void RTScene::buildTriangleSoup(void){
     node["box"] = new RTNode;
     node["box"]->models.push_back(model["box"]);
     node["box"]->modeltransforms.push_back(mat4(1.0f));
-    // node["table"] = new Node;
+    // node["table"] = new RTNode;
 
-    // node["table top"] = new Node;
+    // node["table top"] = new RTNode;
     // node["table leg"] = new Node;
     // node["teapot1"] = new Node;
     // node["teapot2"] = new Node;
@@ -197,8 +197,10 @@ void RTScene::buildTriangleSoup(void){
             shader -> setUniforms();
             std::vector<Triangle> current_triangle = ( cur -> models[i] ) -> RTgeometry -> elements;
             for(Triangle i : current_triangle){
+                Triangle temp_tri;
+                temp_tri.P.push_back(i.P[0] * cur_VM)
                 triangle_soup.push_back(i);
-                std::cout << i.P[0].x << std::endl;
+                // std::cout << i.P[0].x << std::endl;
             }
         }
         
