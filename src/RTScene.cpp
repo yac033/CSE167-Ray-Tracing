@@ -42,10 +42,12 @@ void RTScene::buildTriangleSoup(void){
      * TODO: (HW3 hint: you should do something here)
      */
     matrix_stack.push(cur_VM);
+    
     // Compute total number of connectivities in the graph; this would be an upper bound for
     // the stack size in the depth first search over the directed acyclic graph
     int total_number_of_edges = 0; 
-    for ( const auto &n : node ) total_number_of_edges += n.second->childnodes.size();
+    
+    for ( const auto &n : node ) {total_number_of_edges += n.second->childnodes.size();}
     
     // If you want to print some statistics of your scene graph
     std::cout << "total numb of nodes = " << node.size() << std::endl;
