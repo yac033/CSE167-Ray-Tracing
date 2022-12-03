@@ -121,56 +121,59 @@ glm::vec3 RayTracer::Lightening(Intersection hit, RTScene scene)
     return glm::vec3(emission + sum);
 }
 
-Intersection RayTracer::Intersect(Ray ray, RTScene scene)
-{
-    float mindist = INFINITY;
-    Intersection hit;
+// Intersection RayTracer::Intersect(Ray ray, RTScene scene)
+// {
+//     float mindist = INFINITY;
+//     Intersection hit;
 
-    for (Triangle tri : scene.triangle_soup)
-    { // Find closest intersection; test all objects
-        // std::cout << "new triangle" << std::endl;
+//     for (Triangle tri : scene.triangle_soup)
+//     { // Find closest intersection; test all objects
+//         // std::cout << "new triangle" << std::endl;
         
-        Intersection hit_temp = IntersectTri(ray, tri);
+//         Intersection hit_temp = IntersectTri(ray, tri);
         
-        if (hit_temp.dist < mindist)
-        { // closer than previous hit
-            if (hit_temp.dist != -1)
-            {
-                mindist = hit_temp.dist;
-                // hit.dist = hit_temp.dist;
-                // hit.N = hit_temp.N;
-                // hit.P = hit_temp.P;
-                // hit.V = hit_temp.V;
-                // hit.triangle = hit_temp.triangle;
-                hit = hit_temp;
-            }
-        }
-    }
-    return hit;
-}
+//         if (hit_temp.dist < mindist)
+//         { // closer than previous hit
+//             if (hit_temp.dist != -1)
+//             {
+//                 mindist = hit_temp.dist;
+//                 // hit.dist = hit_temp.dist;
+//                 // hit.N = hit_temp.N;
+//                 // hit.P = hit_temp.P;
+//                 // hit.V = hit_temp.V;
+//                 // hit.triangle = hit_temp.triangle;
+//                 hit = hit_temp;
+//             }
+//         }
+//     }
+//     return hit;
+// }
 
-Intersection RayTracer::IntersectTri(Ray ray, Triangle tri)
-{
+// Intersection RayTracer::IntersectTri(Ray ray, Triangle tri)
+// {
 
-    glm::mat4 firstMatrix = {glm::vec4(tri.P[0], 1.0f), glm::vec4(tri.P[1], 1.0f), glm::vec4(tri.P[2], 1.0f), glm::vec4(-ray.dir, 0.0f)};
-    glm::vec4 secondMatrix = glm::vec4(ray.p0, 1.0f);
-    glm::vec4 result = glm::inverse(firstMatrix) * secondMatrix;
-    Intersection q;
+//     glm::mat4 firstMatrix = {glm::vec4(tri.P[0], 1.0f), glm::vec4(tri.P[1], 1.0f), glm::vec4(tri.P[2], 1.0f), glm::vec4(-ray.dir, 0.0f)};
+//     glm::vec4 secondMatrix = glm::vec4(ray.p0, 1.0f);
+//     glm::vec4 result = glm::inverse(firstMatrix) * secondMatrix;
+//     Intersection q;
     
-    if (result.x >= 0 && result.y >= 0 && result.z >= 0 && result.w >= 0)
-    {
-        std::cout << "crashed" << std::endl;
-        q.P = result.x * tri.P[0] + result.y * tri.P[1] + result.z * tri.P[2];
+//     if (result.x >= 0 && result.y >= 0 && result.z >= 0 && result.w >= 0)
+//     {
+        
+//         q.P = result.x * tri.P[0] + result.y * tri.P[1] + result.z * tri.P[2];
 
-        q.N = glm::normalize(result.x * tri.N[0] + result.y * tri.N[1] + result.z * tri.N[2]);
-        q.V = -ray.dir;
-        q.triangle = &tri;
-        std::cout << tri.material->shininess << std::endl;
-        q.dist = result.w;
-        return q;
-    }
-    return q;
-}
+//         q.N = glm::normalize(result.x * tri.N[0] + result.y * tri.N[1] + result.z * tri.N[2]);
+//         q.V = -ray.dir;
+//         q.triangle = &tri;
+//         q.dist = result.w;
+        
+//         return q;
+//     }else{
+        
+//     }
+//     std::cout << result.x << " " << result.y << " " << result.z << std::endl;
+//     return q;
+// }
 
 Ray RayTracer::RayThruPixel(Camera cam, int i, int j, int width, int height)
 {
