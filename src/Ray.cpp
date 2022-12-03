@@ -89,8 +89,9 @@ Ray RayTracer::RayThruPixel(Camera cam, int i, int j, int width, int height){
     float alpha = 2 * ((i + 0.5f)/width) - 1;
     float beta = 1 - 2 * ((j+0.5f)/height);
     Ray ret;
-    ret.p0 = glm::vec3(0.0f,0.0f,0.0f);
-    ret.dir = glm::vec3(alpha * a * tan(fovy*0.5f),beta*tan(fovy*0.5f),-1);
+    ret.p0 = cam.eye;
+    ret.dir = glm::vec3(alpha * a * tan(fovy*0.5f) * u + beta*tan(fovy*0.5f)*v-w);
+    ret.dir = glm::normalize(ret.dir);
     return ret;
 }
 // void Raytrace(Camera cam, RTScene scene, Image &image);              // page 9

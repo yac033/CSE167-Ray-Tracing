@@ -150,7 +150,7 @@ void RTScene::buildTriangleSoup(void){
     
     // Initialize the current state variable for DFS
     RTNode* cur = node["world"]; // root of the tree
-    mat4 cur_VM = camera -> view; // HW3: You will update this current modelview during the depth first search.  Initially, we are at the "world" node, whose modelview matrix is just camera's view matrix.
+    mat4 cur_VM = glm::mat4(1.0f); // HW3: You will update this current modelview during the depth first search.  Initially, we are at the "world" node, whose modelview matrix is just camera's view matrix.
     
     // HW3: The following is the beginning of the depth-first search algorithm.
     // HW3: The depth-first search for the node traversal has already been implemented (cur, dfs_stack).
@@ -198,8 +198,14 @@ void RTScene::buildTriangleSoup(void){
             std::vector<Triangle> current_triangle = ( cur -> models[i] ) -> RTgeometry -> elements;
             for(Triangle i : current_triangle){
                 Triangle temp_tri;
-                temp_tri.P.push_back(i.P[0] * cur_VM)
-                triangle_soup.push_back(i);
+                temp_tri.P.push_back(glm::vec3(cur_VM * glm::vec4(i.P[0],1)));
+                temp_tri.P.push_back(glm::vec3(glm::vec4(i.P[1],1) * cur_VM));
+                temp_tri.P.push_back(glm::vec3(glm::vec4(i.P[2],1) * cur_VM));
+                temp_tri.N.push_back(glm::vec3(glm::vec4(i.N[0],1) * cur_VM));
+                temp_tri.N.push_back(glm::vec3(glm::vec4(i.N[1],1) * cur_VM));
+                temp_tri.N.push_back(glm::vec3(glm::vec4(i.N[2],1) * cur_VM));
+                temp_tri.material = i.material;
+                triangle_soup.push_back(temp_tri);
                 // std::cout << i.P[0].x << std::endl;
             }
         }
