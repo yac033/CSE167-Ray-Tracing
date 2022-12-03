@@ -33,17 +33,17 @@ glm::vec3 RayTracer::FindColor(Intersection hit, int recursion_depth, RTScene sc
             Ray second_ray;
             second_ray.p0 = hit.P;
             /* for loop to iterate the ligh position*/
-            second_ray.dir = glm::normalize(scene.shader->lightpositions[0] - hit.P);
-            Intersection second_hit = Intersection(second_ray, scene);
-            if (second_hit == INFINITY)
+            second_ray.dir = glm::normalize(glm::vec3(scene.shader->lightpositions[0]) - hit.P);
+            Intersection second_hit = Intersect(second_ray, scene);
+            if (second_hit.dist == INFINITY)
             {
                 color = Lightening(hit, scene);
                 // reflection: Generate mirror-reflected ray
                 Ray reflect_ray;
                 reflect_ray.p0 = hit.P;
-                reflect_ray.dir = 2*(glm::dot(hit.N, hit.V)*hit.N) - hit.V;
-                Intersection hit2 = Intersection(reflect_ray, scene);
-                color += hit.triangle.material->specular * FindColor(hit2, recursion_depth + 1, scene);
+                reflect_ray.dir = (2*glm::dot(hit.N, hit.V)*hit.N) - hit.V;
+                Intersection hit2 = Intersect(reflect_ray, scene);
+                color += glm::vec3(hit.triangle->material->specular) * FindColor(hit2, recursion_depth + 1, scene);
             }
             // shadow here
             else
@@ -61,7 +61,7 @@ glm::vec3 RayTracer::FindColor(Intersection hit, int recursion_depth, RTScene sc
         return color;
     }
 }
-glm::vec3 Lightening(Intersection hit, RTScene scene)
+glm::vec3 RayTracer::Lightening(Intersection hit, RTScene scene)
 {
     // change coordinate from model to camera
     // n' = normalize(A^-T * n)
@@ -73,9 +73,9 @@ glm::vec3 Lightening(Intersection hit, RTScene scene)
     glm::vec4 ambient = hit.triangle->material->ambient;
     glm::vec4 diffuse = hit.triangle->material->diffuse;
     glm::vec4 specular = hit.triangle->material->specular;
-    glm::vec4 shininess = hit.triangle->material->shininess;
-    glm::vec4 lightpositions = scene.light.position;
-    glm::vec4 lightcolors = scene.light.color;
+    float shininess = hit.triangle->material->shininess;
+    glm::vec4 lightpositions = scene.shader->position[0];
+    glm::vec4 lightcolors = scene.shader->color[0];
 
     glm::mat3 A = mat3(modelview[0][0], modelview[0][1], modelview[0][2],
                   modelview[1][0], modelview[1][1], modelview[1][2],
