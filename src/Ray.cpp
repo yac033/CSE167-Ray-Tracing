@@ -26,10 +26,11 @@ void RayTracer::Raytrace(Camera cam, RTScene scene, Image &image)
 }
 
 glm::vec3 RayTracer::FindColor(Intersection hit, int recursion_depth){
-    if(hit.dist < 0){
+    if(hit.dist > -1){
+        return glm::vec3({1.0f,0.0f,0.0f});
+    }else{
         return glm::vec3({0.0f,0.0f,0.0f});
     }
-    return glm::vec3({0.0f,0.0f,1.0f});
 }
 
 Intersection RayTracer::Intersect(Ray ray, RTScene scene)

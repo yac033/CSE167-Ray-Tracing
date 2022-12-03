@@ -50,7 +50,7 @@ public:
         // the default scene graph already has one node named "world."
         node["world"] = new RTNode;
     }
-    
+    void init(void);
     void buildTriangleSoup();
     // destructor
     // ~RTScene(){

@@ -145,31 +145,36 @@ public:
             16, 17, 18, 16, 18, 19, // Top face
             20, 21, 22, 20, 22, 23 // Bottom face
         };
-        for(int i = 0; i < 24;i++){
-            Triangle temp_tri1;
-            Triangle temp_tri2;
-            temp_tri1.P.push_back({positions[i][0],positions[i][1],positions[i][2]});
-            temp_tri1.P.push_back({positions[i+1][0],positions[i+1][1],positions[i+1][2]});
-            temp_tri1.P.push_back({positions[i+2][0],positions[i+2][1],positions[i+2][2]});
-            temp_tri2.P.push_back({positions[i+1][0],positions[i+1][1],positions[i+1][2]});
-            temp_tri2.P.push_back({positions[i+2][0],positions[i+2][1],positions[i+2][2]});
-            temp_tri2.P.push_back({positions[i+3][0],positions[i+3][1],positions[i+3][2]});
-            temp_tri1.N.push_back({normals[i][0],normals[i][1],normals[i][2]});
-            temp_tri1.N.push_back({normals[i+1][0],normals[i+1][1],normals[i+1][2]});
-            temp_tri1.N.push_back({normals[i+2][0],normals[i+2][1],normals[i+2][2]});
-            temp_tri2.N.push_back({normals[i+1][0],normals[i+1][1],normals[i+1][2]});
-            temp_tri2.N.push_back({normals[i+2][0],normals[i+2][1],normals[i+2][2]});
-            temp_tri2.N.push_back({normals[i+3][0],normals[i+3][1],normals[i+3][2]});
-            elements.push_back(temp_tri1);
-            elements.push_back(temp_tri2);
-            i += 3;
-        }
-
-        // std::cout << elements.size() << std::endl;
-        // for(Triangle tri : elements){
-        //     std::cout << "(" << tri.P[0].x << ", " << tri.P[0].y << ", " << tri.P[0].z << "), (" << tri.P[1].x << ", " << tri.P[1].y << ", " << tri.P[1].z << ") , (" << tri.P[2].x << ", " << tri.P[2].y << ", " << tri.P[2].z << ") " << std::endl;
-            
+        // for(int i = 0; i < 24;i++){
+        //     Triangle temp_tri1;
+        //     Triangle temp_tri2;
+        //     temp_tri1.P.push_back({positions[i][0],positions[i][1],positions[i][2]});
+        //     temp_tri1.P.push_back({positions[i+1][0],positions[i+1][1],positions[i+1][2]});
+        //     temp_tri1.P.push_back({positions[i+2][0],positions[i+2][1],positions[i+2][2]});
+        //     temp_tri2.P.push_back({positions[i][0],positions[i+1][1],positions[i+1][2]});
+        //     temp_tri2.P.push_back({positions[i+2][0],positions[i+2][1],positions[i+2][2]});
+        //     temp_tri2.P.push_back({positions[i+3][0],positions[i+3][1],positions[i+3][2]});
+        //     temp_tri1.N.push_back({normals[i][0],normals[i][1],normals[i][2]});
+        //     temp_tri1.N.push_back({normals[i+1][0],normals[i+1][1],normals[i+1][2]});
+        //     temp_tri1.N.push_back({normals[i+2][0],normals[i+2][1],normals[i+2][2]});
+        //     temp_tri2.N.push_back({normals[i][0],normals[i+1][1],normals[i+1][2]});
+        //     temp_tri2.N.push_back({normals[i+2][0],normals[i+2][1],normals[i+2][2]});
+        //     temp_tri2.N.push_back({normals[i+3][0],normals[i+3][1],normals[i+3][2]});
+        //     elements.push_back(temp_tri1);
+        //     elements.push_back(temp_tri2);
+        //     i += 3;
         // }
+        for(int i = 0; i < 36; i+=3){
+            Triangle temp_tri1;
+            temp_tri1.P = std::vector<glm::vec3>{glm::vec3(positions[indices[i]][0], positions[indices[i]][1],positions[indices[i]][2]), glm::vec3(positions[indices[i+1]][0], positions[indices[i+1]][1],positions[indices[i+1]][2]), glm::vec3(positions[indices[i+2]][0], positions[indices[i+2]][1],positions[indices[i+2]][2])};
+            temp_tri1.N = std::vector<glm::vec3>{glm::vec3(normals[indices[i]][0], normals[indices[i]][1],normals[indices[i]][2]), glm::vec3(normals[indices[i+1]][0], normals[indices[i+1]][1],normals[indices[i+1]][2]), glm::vec3(normals[indices[i+2]][0], normals[indices[i+2]][1],normals[indices[i+2]][2])};
+            elements.push_back(temp_tri1);
+        }
+        std::cout << elements.size() << std::endl;
+        for(Triangle tri : elements){
+            std::cout << "(" << tri.P[0].x << ", " << tri.P[0].y << ", " << tri.P[0].z << "), (" << tri.P[1].x << ", " << tri.P[1].y << ", " << tri.P[1].z << ") , (" << tri.P[2].x << ", " << tri.P[2].y << ", " << tri.P[2].z << ") " << std::endl;
+            
+        }
     }
 };
 

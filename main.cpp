@@ -51,7 +51,7 @@ void initialize(void){
     
     // Initialize scene
     // scene.init();
-
+    RTscene.init();
     RTscene.buildTriangleSoup();
     image.init();
     
