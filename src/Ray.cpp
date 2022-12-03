@@ -148,6 +148,7 @@ Intersection RayTracer::IntersectTri(Ray ray, Triangle tri)
     glm::mat4 firstMatrix = {glm::vec4(tri.P[0], 1.0f), glm::vec4(tri.P[1], 1.0f), glm::vec4(tri.P[2], 1.0f), glm::vec4(-ray.dir, 0.0f)};
     glm::vec4 secondMatrix = glm::vec4(ray.p0, 1.0f);
     glm::vec4 result = glm::inverse(firstMatrix) * secondMatrix;
+    
     Intersection q;
     
     if (result.x >= 0 && result.y >= 0 && result.z >= 0 && result.w >= 0)
@@ -171,12 +172,12 @@ Intersection RayTracer::IntersectTri(Ray ray, Triangle tri)
 Ray RayTracer::RayThruPixel(Camera cam, int i, int j, int width, int height)
 {
     glm::vec3 w = glm::normalize(cam.eye - cam.target);
-    glm::vec3 u = glm::normalize(glm::cross(w, cam.up));
+    glm::vec3 u = glm::normalize(glm::cross(cam.up,w));
     glm::vec3 v = glm::cross(w, u);
     float a = width / height * 1.0;
     float fovy = cam.fovy * M_PI / 180.0f;
     float alpha = 2 * ((i + 0.5f) / width) - 1;
-    float beta = 1 - 2 * ((j + 0.5f) / height);
+    float beta = -(1 - 2 * ((j + 0.5f) / height));
     Ray ret;
     ret.p0 = cam.eye;
     ret.dir = glm::vec3(alpha * a * tan(fovy * 0.5f) * u + beta * tan(fovy * 0.5f) * v - w);
