@@ -14,10 +14,9 @@ void RayTracer::Raytrace(Camera cam, RTScene scene, Image &image)
             Ray ray = RayThruPixel(cam, i, j, w, h);
 
             Intersection hit = Intersect(ray, scene);
-            // std::cout << hit.triangle->material->shininess << std::endl;
-            // std::cout << hit.dist << std::endl;
             image.pixels[j * w + i] = FindColor(hit, 1, scene);
         }
+        std::cout << j << std::endl;
     }
 }
 
