@@ -23,45 +23,45 @@ void RayTracer::Raytrace(Camera cam, RTScene scene, Image &image)
 
 glm::vec3 RayTracer::FindColor(Intersection hit, int recursion_depth, RTScene scene)
 {
-    
-    glm::vec3 color = glm::vec3({0.0f,0.0f,0.0f});
-    if (recursion_depth < MAX_RECURSION_DEPTH)
+    glm::vec3 color = glm::vec3({0.1f,0.2f,0.3f});
+    if (recursion_depth >= MAX_RECURSION_DEPTH){
+        return  color;
+    }
+    // if hit is less than infinity
+    if (hit.dist > -1) //if (hit.dist < INFINITY)
     {
-        // if hit is less than infinity
-        if (hit.dist > -1) //if (hit.dist < INFINITY)
-        {
+        // for loop for color 
+        for (int i = 0; i < scene.shader->nlights; i++){
+            color += glm::vec3(hit.triangle.material->diffuse) * glm::vec3(scene.shader->lightcolors[i]) * glm::max(glm::dot(hit.N, glm::vec3(scene.shader->lightpositions[i])), 0.0f);
+        }
+        color += glm::vec3(hit.triangle.material->specular) * Lightening(hit, scene);
+        /* recursive iterate the light position*/
+        for(int i = 0; i < scene.shader->nlights; i++){
             Ray second_ray;
-            second_ray.p0 = hit.P + glm::vec3(2.0f,0.0f,0.0f);
-            /* for loop to iterate the ligh position*/
-            
-            second_ray.dir = glm::normalize(glm::vec3(scene.shader->lightpositions[0]) - hit.P);
-            std::cout << scene.shader->lightpositions[0].x << scene.shader->lightpositions[0].y << scene.shader->lightpositions[0].z << std::endl;
+            second_ray.p0 = hit.P * 1.03f; // glm::vec3(0.0f,0.0f,0.0f);
+            second_ray.dir = glm::normalize(glm::vec3(scene.shader->lightpositions[i]) - hit.P);
             Intersection second_hit = Intersect(second_ray, scene);
+            
             if (second_hit.dist == -1) //if (second_hit.dist == INFINITY)
             {
-                color = Lightening(hit, scene);
-                
-
                 // reflection: Generate mirror-reflected ray
                 Ray reflect_ray;
-                reflect_ray.p0 = hit.P;
+                reflect_ray.p0 = hit.P * 1.03f;
                 reflect_ray.dir = (2 * glm::dot(hit.N, hit.V)*hit.N) - hit.V;
                 Intersection hit2 = Intersect(reflect_ray, scene);
-                color += glm::vec3(hit.triangle.material->specular) * FindColor(hit2, recursion_depth + 1, scene);
+                glm::vec3 shader_model = FindColor(hit2, recursion_depth + 1, scene);
+                color += glm::vec3(hit.triangle.material->specular) * shader_model;
             }
             // shadow here
             else
             {
-                color = glm::vec3(0.0f);
-            }
-            
-        }
+                color = glm::vec3(0.0f, 0.0f, 0.0f);
+            }   
+        }            
     }
-    else
-    {
-        return color;
-    }
+    return color;
 }
+
 glm::vec3 RayTracer::Lightening(Intersection hit, RTScene scene)
 {
     // change coordinate from model to camera

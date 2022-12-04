@@ -132,7 +132,7 @@ void RTScene::init(void){
     // Put a camera
     camera = new Camera;
     camera -> target_default = vec3( 0.0f, 1.0f, 0.0f );
-    camera -> eye_default = vec3( 0.0f, 1.0f, 5.0f );
+    camera -> eye_default = vec3( 0.0f, 1.5f, 5.0f );
     camera -> up_default = vec3( 0.0f, 1.0f, 0.0f );
     camera -> reset();
     
