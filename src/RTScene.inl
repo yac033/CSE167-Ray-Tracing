@@ -9,10 +9,10 @@ void RTScene::init(void){
     
     // Create a geometry palette
     RTgeometry["cube"] = new RTCube;
-    // geometry["teapot"] = new Obj;
+    RTgeometry["teapot"] = new RTObj;
     // geometry["bunny"] = new Obj;
     RTgeometry["cube"] -> init();
-    // geometry["teapot"] -> init("models/teapot.obj");
+    RTgeometry["teapot"] -> init("models/teapot.obj");
     // geometry["bunny"] -> init("models/bunny.obj");
     
     // Create a material palette
@@ -52,9 +52,9 @@ void RTScene::init(void){
     // model["box"] -> material = material["wood"];
     
 
-    // model["teapot1"] = new Model;
-    // model["teapot1"] -> geometry = geometry["teapot"];
-    // model["teapot1"] -> material = material["silver"];
+    model["teapot1"] = new RTModel;
+    model["teapot1"] -> RTgeometry = RTgeometry["teapot"];
+    model["teapot1"] -> material = material["silver"];
     // model["teapot2"] = new Model;
     // model["teapot2"] -> geometry = geometry["teapot"];
     // model["teapot2"] -> material = material["ceramic"];
@@ -73,9 +73,9 @@ void RTScene::init(void){
     light["sun"] -> position = vec4(3.0f,2.0f,1.0f,0.0f);
     light["sun"] -> color = 1.0f*vec4(1.0f,1.0f,1.0f,1.0f);
     
-    light["bulb"] = new Light;
-    light["bulb"] -> position = vec4(0.0f,2.0f,0.0f,0.0f);
-    light["bulb"] -> color = 1.5f * vec4(1.0f,0.2f,0.1f,1.0f);
+    // light["bulb"] = new Light;
+    // light["bulb"] -> position = vec4(0.0f,2.0f,0.0f,0.0f);
+    // light["bulb"] -> color = 1.5f * vec4(1.0f,0.2f,0.1f,1.0f);
     
     // Build the scene graph
     // node["box"] = new RTNode;
@@ -85,7 +85,7 @@ void RTScene::init(void){
 
     node["table top"] = new RTNode;
     node["table leg"] = new RTNode;
-    // node["teapot1"] = new Node;
+    node["teapot1"] = new RTNode;
     // node["teapot2"] = new Node;
     // node["bunny"] = new Node;
     
@@ -106,13 +106,13 @@ void RTScene::init(void){
     
     node["table top"] -> models.push_back( model["table piece"] );
     node["table top"] -> modeltransforms.push_back( translate(vec3(0.0f,-0.1f,0.0f)) * scale(vec3(2.0f,0.2f,1.0f)) );
-    // node["table top"] -> childnodes.push_back( node["teapot1"] );
-    // node["table top"] -> childtransforms.push_back( translate(vec3(-0.5f,0.0f,0.0f)) );
+    node["table top"] -> childnodes.push_back( node["teapot1"] );
+    node["table top"] -> childtransforms.push_back( translate(vec3(-0.5f,0.0f,0.0f)) );
     // node["table top"] -> childnodes.push_back( node["teapot2"] );
     // node["table top"] -> childtransforms.push_back( translate(vec3( 0.5f,0.0f,0.0f)) * rotate( -120.0f*float(M_PI)/180.0f, vec3(0.0f, 1.0f, 0.0f) ) );
     
-    // node["teapot1"] -> models.push_back( model["teapot1"] );
-    // node["teapot1"] -> modeltransforms.push_back( scale(vec3(0.5f)) );
+    node["teapot1"] -> models.push_back( model["teapot1"] );
+    node["teapot1"] -> modeltransforms.push_back( scale(vec3(0.5f)) );
     // node["teapot2"] -> models.push_back( model["teapot2"] );
     // node["teapot2"] -> modeltransforms.push_back( scale(vec3(1.0f,1.5f,1.0f)) * scale(vec3(0.5f)) );
     

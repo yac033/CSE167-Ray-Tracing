@@ -5,6 +5,7 @@ that loads an obj file.
 #define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
 #include "RTGeometry.h"
+#include "Triangle.h"
 #ifndef __RTOBJ_H__
 #define __RTOBJ_H__
 

@@ -35,6 +35,7 @@ glm::vec3 RayTracer::FindColor(Intersection hit, int recursion_depth, RTScene sc
             /* for loop to iterate the ligh position*/
             
             second_ray.dir = glm::normalize(glm::vec3(scene.shader->lightpositions[0]) - hit.P);
+            std::cout << scene.shader->lightpositions[0].x << scene.shader->lightpositions[0].y << scene.shader->lightpositions[0].z << std::endl;
             Intersection second_hit = Intersect(second_ray, scene);
             if (second_hit.dist == -1) //if (second_hit.dist == INFINITY)
             {
@@ -174,7 +175,7 @@ Ray RayTracer::RayThruPixel(Camera cam, int i, int j, int width, int height)
     glm::vec3 w = glm::normalize(cam.eye - cam.target);
     glm::vec3 u = glm::normalize(glm::cross(cam.up,w));
     glm::vec3 v = glm::cross(w, u);
-    float a = width / height * 1.0;
+    float a = width / height * 1.0f;
     float fovy = cam.fovy * M_PI / 180.0f;
     float alpha = 2 * ((i + 0.5f) / width) - 1;
     float beta = -(1 - 2 * ((j + 0.5f) / height));

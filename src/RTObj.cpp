@@ -22,7 +22,7 @@ that loads an obj file.
 
 #include "RTObj.h"
 
-void Obj::init(const char * filename){
+void RTObj::init(const char * filename){
     std::vector< glm::vec3 > temp_vertices, vertices;
     std::vector< glm::vec3 > temp_normals, normals;
     std::vector< unsigned int > temp_vertexIndices, indices;
@@ -80,6 +80,13 @@ void Obj::init(const char * filename){
     
     // setting up buffers
     std::cout << "Setting up buffers...";
+    for (int i = 0; i < indices.size(); i += 3)
+    {
+        Triangle temp_tri1;
+        temp_tri1.P = std::vector<glm::vec3>{glm::vec3(vertices[indices[i]][0], vertices[indices[i]][1], vertices[indices[i]][2]), glm::vec3(vertices[indices[i + 1]][0], vertices[indices[i + 1]][1], vertices[indices[i + 1]][2]), glm::vec3(vertices[indices[i + 2]][0], vertices[indices[i + 2]][1], vertices[indices[i + 2]][2])};
+        temp_tri1.N = std::vector<glm::vec3>{glm::vec3(normals[indices[i]][0], normals[indices[i]][1], normals[indices[i]][2]), glm::vec3(normals[indices[i + 1]][0], normals[indices[i + 1]][1], normals[indices[i + 1]][2]), glm::vec3(normals[indices[i + 2]][0], normals[indices[i + 2]][1], normals[indices[i + 2]][2])};
+        elements.push_back(temp_tri1);
+    }
     // glGenVertexArrays(1, &vao );
     // buffers.resize(3);
     // glGenBuffers(3, buffers.data());
