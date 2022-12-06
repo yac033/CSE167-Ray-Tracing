@@ -66,11 +66,12 @@ void RTScene::init(void){
     // model["bunny"] -> material = material["turquoise"];
     model["bulb"] = new RTModel;
     model["bulb"] -> RTgeometry = RTgeometry["cube"];
-    model["bulb"] -> material = material["bulb"];
+    model["bulb"] -> material = material["turquoise"];
     
     // Create a light palette
     light["sun"] = new Light;
-    light["sun"] -> position = vec4(3.0f,2.0f,1.0f,0.0f);
+    // light["sun"] -> position = vec4(3.0f,2.0f,1.0f,0.0f);
+    light["sun"] -> position = vec4(0.0f,2.0f,1.0f,0.0f);
     light["sun"] -> color = 1.0f*vec4(1.0f,1.0f,1.0f,1.0f);
     
     //light["bulb"] = new Light;
@@ -126,13 +127,13 @@ void RTScene::init(void){
     node["world"] -> childtransforms.push_back( mat4(1.0f) );
     // node["world"] -> childnodes.push_back( node["bunny"] );
     // node["world"] -> childtransforms.push_back( translate(vec3(-1.8f,0.0f,0.0f)) * rotate( 90.0f*float(M_PI)/180.0f, vec3(0.0f, 1.0f, 0.0f) ));
-    //node["world"] -> models.push_back( model["bulb"] );
-    //node["world"] -> modeltransforms.push_back( translate(vec3(0.0f,2.0f,0.0f))*scale(vec3(0.1f)) );
+    node["world"] -> models.push_back( model["bulb"] );
+    node["world"] -> modeltransforms.push_back( translate(vec3(0.0f,2.0f,0.0f))*scale(vec3(0.1f)) );
     
     // Put a camera
     camera = new Camera;
     camera -> target_default = vec3( 0.0f, 1.0f, 0.0f );
-    camera -> eye_default = vec3( 0.0f, 1.5f, 5.0f );
+    camera -> eye_default = vec3( 0.0f, 2.0f, 5.0f );
     camera -> up_default = vec3( 0.0f, 1.0f, 0.0f );
     camera -> reset();
     
