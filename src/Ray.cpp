@@ -22,7 +22,7 @@ void RayTracer::Raytrace(Camera cam, RTScene scene, Image &image)
 
 glm::vec3 RayTracer::FindColor(Intersection hit, int recursion_depth, RTScene scene)
 {
-    glm::vec3 color = glm::vec3({0.1f,0.2f,0.3f});
+    glm::vec3 color = glm::vec3({0.3f,0.1f,0.3f});
     if (recursion_depth >= MAX_RECURSION_DEPTH){
         return  color;
     }
@@ -56,7 +56,8 @@ glm::vec3 RayTracer::FindColor(Intersection hit, int recursion_depth, RTScene sc
             // shadow here
             else
             {
-                color = glm::vec3(0.0f, 0.0f, 0.0f);
+                // color = glm::vec3(0.0f, 0.0f, 0.0f);
+                color = glm::vec3(hit.triangle.material->ambient);
             }   
         }            
     }
