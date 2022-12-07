@@ -35,11 +35,11 @@ glm::vec3 RayTracer::FindColor(Intersection hit, int recursion_depth, RTScene sc
             second_ray.p0 = hit.P * 1.03f; // glm::vec3(0.0f,0.0f,0.0f);
             second_ray.dir = glm::normalize(glm::vec3(scene.shader->lightpositions[i]) - hit.P);
             Intersection second_hit = Intersect(second_ray, scene);
-            int visibility = 0;
+            float visibility = 0.0f;
+            // if it is visible
             if (second_hit.dist == -1){
-                visibility = 1;
+                color += visibility * glm::vec3(hit.triangle.material->diffuse) * glm::vec3(scene.shader->lightcolors[i]) * glm::max(glm::dot(hit.N, glm::vec3(scene.shader->lightpositions[i])), 0.0f);
             }
-            color += visibility * glm::vec3(hit.triangle.material->diffuse) * glm::vec3(scene.shader->lightcolors[i]) * glm::max(glm::dot(hit.N, glm::vec3(scene.shader->lightpositions[i])), 0.0f);
         }
         color += glm::vec3(hit.triangle.material->specular) * Lightening(hit, scene);
         /* recursive iterate the light position*/
