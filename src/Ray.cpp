@@ -1,6 +1,6 @@
 #include "Ray.h"
 #include "Intersection.h"
-int MAX_RECURSION_DEPTH = 3;
+int MAX_RECURSION_DEPTH = 6;
 void RayTracer::Raytrace(Camera cam, RTScene scene, Image &image)
 {
     int w = image.width;
@@ -63,12 +63,11 @@ glm::vec3 RayTracer::FindColor(Intersection hit, int recursion_depth, RTScene sc
                 Intersection hit2 = Intersect(reflect_ray, scene);
                 glm::vec3 shader_model = FindColor(hit2, recursion_depth + 1, scene);
                 if(shader_model == glm::vec3({0.1f,0.2f,0.4f})){
-                    std::cout << "change to black" << std::endl;
                     shader_model = glm::vec3(0.0f,0.0f,0.0f);
                 }
-                color += glm::vec3(hit.triangle.material->specular) * shader_model;
-                // color = glm::vec3(0.0f, 0.0f, 0.0f);
-                // color = glm::vec3(hit.triangle.material->ambient);
+                // color += glm::vec3(hit.triangle.material->specular) * shader_model;
+                // // color = glm::vec3(0.0f, 0.0f, 0.0f);
+                color = glm::vec3(hit.triangle.material->ambient) + glm::vec3(hit.triangle.material->specular)*shader_model;
             }   
         }            
     }
