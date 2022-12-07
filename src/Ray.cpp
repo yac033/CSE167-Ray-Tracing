@@ -64,57 +64,57 @@ glm::vec3 RayTracer::FindColor(Intersection hit, int recursion_depth, RTScene sc
     return color;
 }
 
-glm::vec3 RayTracer::Lightening(Intersection hit, RTScene scene)
-{
-    // change coordinate from model to camera
-    // n' = normalize(A^-T * n)
-    glm::mat4 modelview = scene.shader->modelview;
-    glm::mat4 view = scene.shader->view;
-    glm::vec3 normal = hit.N;
-    glm::vec3 position = hit.P;
-    int nlights = scene.light.size();
+// glm::vec3 RayTracer::Lightening(Intersection hit, RTScene scene)
+// {
+//     // change coordinate from model to camera
+//     // n' = normalize(A^-T * n)
+//     glm::mat4 modelview = scene.shader->modelview;
+//     glm::mat4 view = scene.shader->view;
+//     glm::vec3 normal = hit.N;
+//     glm::vec3 position = hit.P;
+//     int nlights = scene.light.size();
     
-    glm::vec4 ambient = hit.triangle.material->ambient;
-    glm::vec4 diffuse = hit.triangle.material->diffuse;
-    glm::vec4 specular = hit.triangle.material->specular;
-    float shininess = hit.triangle.material->shininess;
+//     glm::vec4 ambient = hit.triangle.material->ambient;
+//     glm::vec4 diffuse = hit.triangle.material->diffuse;
+//     glm::vec4 specular = hit.triangle.material->specular;
+//     float shininess = hit.triangle.material->shininess;
     
-    glm::vec4 emission = hit.triangle.material->emision;
-    std::vector<glm::vec4> lightpositions = scene.shader->lightpositions;
+//     glm::vec4 emission = hit.triangle.material->emision;
+//     std::vector<glm::vec4> lightpositions = scene.shader->lightpositions;
  
-    std::vector<glm::vec4> lightcolors = scene.shader->lightcolors;
+//     std::vector<glm::vec4> lightcolors = scene.shader->lightcolors;
 
-    glm::mat3 A = glm::mat3(modelview[0][0], modelview[0][1], modelview[0][2],
-                  modelview[1][0], modelview[1][1], modelview[1][2],
-                  modelview[2][0], modelview[2][1], modelview[2][2]);
+//     glm::mat3 A = glm::mat3(modelview[0][0], modelview[0][1], modelview[0][2],
+//                   modelview[1][0], modelview[1][1], modelview[1][2],
+//                   modelview[2][0], modelview[2][1], modelview[2][2]);
 
-    glm::mat3 A_inverse = inverse(transpose(A));
-    glm::vec3 normal_cam = normalize(A_inverse * normal);
+//     glm::mat3 A_inverse = inverse(transpose(A));
+//     glm::vec3 normal_cam = normalize(A_inverse * normal);
     
-    // change position from world to world
-    glm::vec4 new_position = glm::vec4(position,1);
+//     // change position from world to world
+//     glm::vec4 new_position = glm::vec4(position,1);
 
-    glm::vec3 v = -1.0f * glm::normalize(glm::vec3(new_position) / new_position.w);
+//     glm::vec3 v = -1.0f * glm::normalize(glm::vec3(new_position) / new_position.w);
     
-    glm::vec4 sum = glm::vec4(0);
-    // HW3: You will compute the lighting here.
-    for (int i = 0; i < nlights; i++)
-    {
+//     glm::vec4 sum = glm::vec4(0);
+//     // HW3: You will compute the lighting here.
+//     for (int i = 0; i < nlights; i++)
+//     {
 
-        // change light from world to world
-        glm::vec4 new_light = lightpositions[i];
+//         // change light from world to world
+//         glm::vec4 new_light = lightpositions[i];
 
-        glm::vec3 d = normalize(new_position[3] * glm::vec3(new_light) - new_light[3] * glm::vec3(new_position));
+//         glm::vec3 d = normalize(new_position[3] * glm::vec3(new_light) - new_light[3] * glm::vec3(new_position));
 
-        glm::vec3 h = normalize(d + v);
+//         glm::vec3 h = normalize(d + v);
 
-        sum += lightcolors[i] *
-               (ambient +
-                (diffuse * glm::max(dot(normal_cam, d), 0.0f)) +
-                (specular * pow(glm::max(dot(normal_cam, h), 0.0f), shininess)));
-    }
-    return glm::vec3(emission + sum);
-}
+//         sum += lightcolors[i] *
+//                (ambient +
+//                 (diffuse * glm::max(dot(normal_cam, d), 0.0f)) +
+//                 (specular * pow(glm::max(dot(normal_cam, h), 0.0f), shininess)));
+//     }
+//     return glm::vec3(emission + sum);
+// }
 
 Intersection RayTracer::Intersect(Ray ray, RTScene scene)
 {
