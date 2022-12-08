@@ -16,9 +16,10 @@
 #include "Scene.h"
 #include "Image.h"
 #include "RTScene.h"
+#include "Ray.h"
 
 static const int width = 800;
-static const int height = 600;
+static const int height = 800;
 static const char* title = "Scene viewer";
 static const glm::vec4 background(0.1f, 0.2f, 0.3f, 1.0f);
 static Scene scene;
@@ -50,7 +51,7 @@ void initialize(void){
     
     // Initialize scene
     // scene.init();
-    
+    RTscene.init();
     RTscene.buildTriangleSoup();
     image.init();
     
@@ -60,9 +61,9 @@ void initialize(void){
 
 void display(void){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-    
-    scene.draw();
-    // image.draw();
+    // scene.draw();
+    RayTracer::Raytrace(*RTscene.camera,RTscene,image);
+    image.draw();
     glutSwapBuffers();
     glFlush();
     
@@ -87,12 +88,12 @@ void keyboard(unsigned char key, int x, int y){
             saveScreenShot();
             break;
         case 'r':
-            scene.camera -> aspect_default = float(glutGet(GLUT_WINDOW_WIDTH))/float(glutGet(GLUT_WINDOW_HEIGHT));
-            scene.camera -> reset();
+            RTscene.camera -> aspect_default = float(glutGet(GLUT_WINDOW_WIDTH))/float(glutGet(GLUT_WINDOW_HEIGHT));
+            RTscene.camera -> reset();
             glutPostRedisplay();
             break;
         case 'a':
-            scene.camera -> zoom(0.9f);
+            RTscene.camera -> zoom(0.9f);
             glutPostRedisplay();
             break;
         case 'z':
@@ -120,19 +121,19 @@ void keyboard(unsigned char key, int x, int y){
 void specialKey(int key, int x, int y){
     switch (key) {
         case GLUT_KEY_UP: // up
-            scene.camera -> rotateUp(-10.0f);
+            RTscene.camera -> rotateUp(-10.0f);
             glutPostRedisplay();
             break;
         case GLUT_KEY_DOWN: // down
-            scene.camera -> rotateUp(10.0f);
+            RTscene.camera -> rotateUp(10.0f);
             glutPostRedisplay();
             break;
         case GLUT_KEY_RIGHT: // right
-            scene.camera -> rotateRight(-10.0f);
+            RTscene.camera -> rotateRight(-10.0f);
             glutPostRedisplay();
             break;
         case GLUT_KEY_LEFT: // left
-            scene.camera -> rotateRight(10.0f);
+            RTscene.camera -> rotateRight(10.0f);
             glutPostRedisplay();
             break;
     }
@@ -165,7 +166,6 @@ int main(int argc, char** argv)
     glutDisplayFunc(display);
     glutKeyboardFunc(keyboard);
     glutSpecialFunc(specialKey);
-    
     glutMainLoop();
     
 	return 0;   /* ANSI C requires main to return int. */
